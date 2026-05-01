@@ -1,0 +1,1445 @@
+<!DOCTYPE html>
+<!-- saved from url=(0224)file:///Users/ric.corbally/Library/Application%20Support/Claude/local-agent-mode-sessions/1bf40971-e65c-4071-9b0a-f7f3e4ef1ea4/2cb38fdd-b74a-43c7-ad5d-30d6e1d1d480/local_b19b847e-185d-47c4-8e16-6df920027439/outputs/VM.html#1 -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scan out the box — discovery deck</title>
+<link href="./VM_files/css2" rel="stylesheet">
+<style>
+  :root {
+    /* Primitive palette */
+    --c-orange-1: #FF6633;
+    --c-orange-2: #B86633;
+    --c-orange-5: #FFD9CC;
+    --c-orange-6: #FFF7F5;
+
+    --c-grey-1: #333332;
+    --c-grey-3: #676667;
+    --c-grey-4: #CBD0D1;
+    --c-grey-5: #EBF0F2;
+    --c-grey-6: #F0F8FB;
+
+    --c-ent-1: #0094FF;
+    --c-ent-2: #1353B9;
+    --c-ent-5: #D0EBFF;
+    --c-ent-6: #F7F9FD;
+
+    --c-navy-1: #000B4F;
+    --c-navy-2: #000023;
+    --c-navy-6: #F2F3F6;
+
+    --c-pro-1: #5B4FFF;
+    --c-pro-2: #4C4FB1;
+    --c-pro-5: #D6D3FF;
+    --c-pro-6: #F7F6FF;
+
+    --c-red-2: #D6213F;
+
+    /* Semantic */
+    --c-text-header: var(--c-navy-2);
+    --c-text-body: var(--c-grey-1);
+    --c-text-secondary: var(--c-grey-3);
+
+    --font: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'Roboto Mono', monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: #0a0a14;
+    font-family: var(--font);
+    color: var(--c-text-body);
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .stage {
+    position: fixed;
+    inset: 0;
+    display: grid;
+    place-items: center;
+  }
+
+  .deck {
+    width: 1280px;
+    height: 720px;
+    position: relative;
+    transform-origin: center center;
+    background: white;
+    box-shadow: 0 40px 80px rgba(0, 0, 35, 0.6);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    padding: 64px 80px 56px;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 200ms ease-in-out;
+  }
+  .slide.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Slide chrome */
+  .slide-eyebrow {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--c-orange-1);
+    margin-bottom: 12px;
+  }
+  .slide h1 {
+    font-size: 42px;
+    font-weight: 500;
+    line-height: 1.15;
+    color: var(--c-text-header);
+    letter-spacing: -0.6px;
+    margin-bottom: 8px;
+  }
+  .slide h2 {
+    font-size: 26px;
+    font-weight: 400;
+    line-height: 1.3;
+    color: var(--c-text-secondary);
+    letter-spacing: -0.2px;
+    margin-bottom: 32px;
+  }
+  .slide p { font-size: 20px; line-height: 1.5; color: var(--c-text-body); }
+  .slide p + p { margin-top: 16px; }
+  .slide strong { color: var(--c-text-header); font-weight: 500; }
+
+  .slide-footer {
+    position: absolute;
+    bottom: 24px;
+    left: 80px;
+    right: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: var(--c-text-secondary);
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+  }
+  .slide-footer .section-tag { font-weight: 500; }
+  .slide-footer .source-tag { font-style: normal; color: var(--c-grey-3); }
+
+  /* Title slide */
+  .slide-title {
+    background: var(--c-navy-2);
+    padding: 80px;
+    justify-content: center;
+  }
+  .slide-title .slide-eyebrow { color: var(--c-orange-1); }
+  .slide-title h1 {
+    font-size: 56px;
+    color: white;
+    max-width: 900px;
+    line-height: 1.1;
+    letter-spacing: -1px;
+    margin-bottom: 16px;
+  }
+  .slide-title h2 { color: rgba(255, 255, 255, 0.7); font-size: 22px; }
+  .slide-title .meta {
+    margin-top: 80px;
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .slide-title .meta strong { color: white; font-weight: 500; }
+
+  /* Section divider slides */
+  .slide-divider {
+    background: var(--c-navy-2);
+    justify-content: center;
+    padding: 0 80px;
+  }
+  .slide-divider .part-num {
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--c-orange-1);
+    margin-bottom: 32px;
+  }
+  .slide-divider h1 {
+    font-size: 88px;
+    color: white;
+    line-height: 1;
+    letter-spacing: -2px;
+    margin-bottom: 24px;
+  }
+  .slide-divider .part-sub {
+    font-size: 22px;
+    color: rgba(255, 255, 255, 0.6);
+    max-width: 700px;
+    line-height: 1.4;
+  }
+
+  /* Big stat */
+  .big-stat {
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+    margin: 32px 0 24px;
+  }
+  .big-stat-value {
+    font-size: 140px;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--c-orange-1);
+    letter-spacing: -4px;
+  }
+  .big-stat-value-pro { color: var(--c-pro-1); }
+  .big-stat-value-red { color: var(--c-red-2); }
+  .big-stat-value-ent { color: var(--c-ent-2); }
+  .big-stat-suffix {
+    font-size: 60px;
+    font-weight: 400;
+    color: var(--c-text-secondary);
+    letter-spacing: -1px;
+  }
+  .big-stat-label {
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--c-text-header);
+    line-height: 1.3;
+    max-width: 480px;
+  }
+  .big-stat-label strong { color: var(--c-orange-1); font-weight: 500; }
+
+  /* Quote block */
+  .quote {
+    font-size: 22px;
+    line-height: 1.4;
+    color: var(--c-text-header);
+    font-weight: 400;
+    font-style: italic;
+    padding: 24px 28px;
+    background: var(--c-grey-6);
+    border-left: 3px solid var(--c-ent-1);
+    border-radius: 4px;
+    max-width: 780px;
+    letter-spacing: -0.2px;
+  }
+  .quote.is-pro { background: var(--c-pro-6); border-left-color: var(--c-pro-1); }
+  .quote.is-orange { background: var(--c-orange-6); border-left-color: var(--c-orange-1); }
+  .quote cite {
+    display: block;
+    margin-top: 12px;
+    font-style: normal;
+    font-size: 14px;
+    color: var(--c-text-secondary);
+    font-weight: 500;
+  }
+
+  /* 6-tile grid for interviews */
+  .tile-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 12px;
+  }
+  .tile {
+    background: var(--c-grey-6);
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .tile-num {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--c-orange-1);
+  }
+  .tile-title {
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--c-text-header);
+    line-height: 1.3;
+  }
+  .tile-body {
+    font-size: 14px;
+    color: var(--c-text-body);
+    line-height: 1.4;
+  }
+
+  /* Archetype grid for TS templates */
+  .arch-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    margin-top: 12px;
+  }
+  .arch {
+    border: 1px solid var(--c-grey-4);
+    border-radius: 8px;
+    padding: 22px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .arch-type {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--c-text-header);
+    letter-spacing: -0.2px;
+  }
+  .arch-config {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--c-pro-1);
+    background: var(--c-pro-6);
+    padding: 8px 12px;
+    border-radius: 4px;
+    line-height: 1.5;
+  }
+  .arch-note {
+    font-size: 13px;
+    color: var(--c-text-secondary);
+    line-height: 1.4;
+  }
+
+  /* Two-column layout */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    margin-top: 8px;
+  }
+  .two-col h3 {
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: var(--c-orange-1);
+    margin-bottom: 12px;
+  }
+
+  /* Answer + reason layout */
+  .answer-block {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-top: 8px;
+  }
+  .answer-headline {
+    font-size: 36px;
+    font-weight: 500;
+    color: var(--c-text-header);
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+  }
+  .answer-headline strong { color: var(--c-orange-1); }
+  .answer-headline .pro { color: var(--c-pro-1); }
+  .answer-headline .red { color: var(--c-red-2); }
+
+  /* Numbered list */
+  .num-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 8px;
+  }
+  .num-list li {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    font-size: 17px;
+    line-height: 1.4;
+    color: var(--c-text-body);
+  }
+  .num-list .n {
+    flex: 0 0 auto;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--c-orange-1);
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    margin-top: 1px;
+  }
+  .num-list strong { color: var(--c-text-header); font-weight: 500; }
+
+  /* Bar chart for plot twist */
+  .bars {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 16px;
+    max-width: 880px;
+  }
+  .bar-row {
+    display: grid;
+    grid-template-columns: 220px 1fr 60px;
+    align-items: center;
+    gap: 16px;
+  }
+  .bar-label { font-size: 16px; color: var(--c-text-header); font-weight: 500; }
+  .bar-track {
+    background: var(--c-grey-5);
+    border-radius: 4px;
+    height: 26px;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    background: var(--c-ent-2);
+    transition: width 600ms ease;
+  }
+  .bar-fill.is-orange { background: var(--c-orange-1); }
+  .bar-fill.is-red { background: var(--c-red-2); }
+  .bar-fill.is-grey { background: var(--c-grey-3); }
+  .bar-value {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--c-text-header);
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Evidence grid — Part 2 Q-slides */
+  .evidence-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 24px;
+    flex: 1;
+    min-height: 0;
+  }
+  .evidence-col {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
+  }
+  .evidence-header {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--c-orange-1);
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--c-grey-4);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .evidence-header .src {
+    color: var(--c-text-secondary);
+    letter-spacing: 0.4px;
+    text-transform: none;
+    font-weight: 400;
+    font-size: 10px;
+  }
+  .evidence-stat {
+    font-size: 38px;
+    font-weight: 500;
+    color: var(--c-text-header);
+    line-height: 1;
+    letter-spacing: -0.6px;
+  }
+  .evidence-stat .unit {
+    font-size: 18px;
+    color: var(--c-text-secondary);
+    font-weight: 400;
+  }
+  .evidence-stat-caption {
+    font-size: 13px;
+    color: var(--c-text-secondary);
+    line-height: 1.3;
+    margin-top: -4px;
+  }
+  .evidence-bullets {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--c-text-body);
+  }
+  .evidence-bullets li {
+    padding-left: 14px;
+    position: relative;
+  }
+  .evidence-bullets li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 7px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--c-orange-1);
+  }
+  .evidence-bullets strong { color: var(--c-text-header); font-weight: 500; }
+  .evidence-quote {
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--c-text-body);
+    font-style: italic;
+    padding: 10px 12px;
+    background: var(--c-grey-6);
+    border-left: 2px solid var(--c-ent-1);
+    border-radius: 4px;
+  }
+  .evidence-quote.is-pro { background: var(--c-pro-6); border-left-color: var(--c-pro-1); }
+  .evidence-quote cite {
+    display: block;
+    margin-top: 4px;
+    font-style: normal;
+    font-size: 11px;
+    color: var(--c-text-secondary);
+    font-weight: 500;
+  }
+
+  /* Confidence pill — sits between summary and evidence grid */
+  .confidence-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    margin-bottom: 4px;
+    padding: 7px 14px 7px 12px;
+    background: white;
+    border-radius: 200px;
+    border: 1px solid var(--c-grey-4);
+    font-size: 12.5px;
+    color: var(--c-text-body);
+    line-height: 1.35;
+    max-width: max-content;
+  }
+  .confidence-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex: 0 0 auto;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.04);
+  }
+  .confidence-pill strong { color: var(--c-text-header); font-weight: 500; }
+  .confidence-pill .rationale {
+    color: var(--c-text-secondary);
+    font-style: italic;
+  }
+  .confidence-sep {
+    color: var(--c-grey-4);
+    margin: 0 4px;
+  }
+
+  /* Plain-language summary under each Q-answer */
+  .q-summary {
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--c-text-body);
+    max-width: 1020px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    letter-spacing: -0.1px;
+  }
+  .q-summary strong { color: var(--c-text-header); font-weight: 500; }
+
+  /* Signpost — Q1 panorama → facets */
+  .signpost {
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--c-grey-4);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .signpost-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--c-text-secondary);
+  }
+  .signpost-label strong { color: var(--c-orange-1); font-weight: 500; }
+  .signpost-items {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .signpost-tag {
+    font-size: 12px;
+    color: var(--c-text-body);
+    background: var(--c-grey-6);
+    padding: 5px 11px;
+    border-radius: 200px;
+    border: 1px solid var(--c-grey-4);
+    line-height: 1.2;
+  }
+  .signpost-tag strong { color: var(--c-orange-1); font-weight: 500; }
+
+  /* Compact single-line variant for tight slides */
+  .signpost.signpost-compact {
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+    padding-top: 10px;
+  }
+  .signpost-inline {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 4px;
+    font-size: 12.5px;
+    color: var(--c-text-body);
+    line-height: 1.4;
+  }
+  .signpost-inline strong { color: var(--c-orange-1); font-weight: 500; margin-right: 2px; }
+  .signpost-dot { color: var(--c-grey-4); padding: 0 2px; }
+
+  /* Compact answer for Q-slides */
+  .q-answer-compact {
+    font-size: 32px;
+    font-weight: 500;
+    color: var(--c-text-header);
+    line-height: 1.2;
+    letter-spacing: -0.4px;
+    margin-bottom: 4px;
+  }
+  .q-answer-compact strong { color: var(--c-orange-1); }
+  .q-answer-compact .pro { color: var(--c-pro-1); }
+  .q-answer-compact .red { color: var(--c-red-2); }
+  .slide .q-question {
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--c-text-secondary);
+    margin-bottom: 16px;
+    line-height: 1.3;
+  }
+
+  /* Recommendations slide */
+  .rec-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 16px;
+  }
+  .rec {
+    background: linear-gradient(180deg, var(--c-pro-6) 0%, white 100%);
+    border: 1px solid var(--c-pro-5);
+    border-radius: 12px;
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .rec-num {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--c-pro-2);
+  }
+  .rec-title {
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--c-text-header);
+    line-height: 1.25;
+    letter-spacing: -0.3px;
+  }
+  .rec-body {
+    font-size: 15px;
+    color: var(--c-text-body);
+    line-height: 1.5;
+  }
+
+  /* Sources slide tiles */
+  .source-tiles {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 16px;
+  }
+  .source-tile {
+    border: 1px solid var(--c-grey-4);
+    border-radius: 8px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .source-tile-eyebrow {
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--c-orange-1);
+    font-weight: 500;
+  }
+  .source-tile-title {
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--c-text-header);
+  }
+  .source-tile-body {
+    font-size: 14px;
+    color: var(--c-text-body);
+    line-height: 1.5;
+  }
+
+  /* Closing slide */
+  .closing-stat {
+    font-size: 32px;
+    line-height: 1.3;
+    color: white;
+    max-width: 900px;
+    font-weight: 400;
+    letter-spacing: -0.5px;
+  }
+  .closing-stat strong { color: var(--c-orange-1); font-weight: 500; }
+  .closing-cta {
+    margin-top: 48px;
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.6;
+  }
+  .closing-cta strong { color: white; font-weight: 500; }
+
+  /* Progress bar */
+  .progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.1);
+    z-index: 100;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--c-orange-1);
+    transition: width 200ms ease;
+  }
+
+  /* Controls */
+  .controls {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    background: rgba(0, 0, 35, 0.7);
+    backdrop-filter: blur(8px);
+    padding: 8px 12px;
+    border-radius: 200px;
+    z-index: 100;
+    opacity: 0;
+    transition: opacity 200ms ease;
+  }
+  .stage:hover ~ .controls,
+  .controls:hover { opacity: 1; }
+  .ctrl-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.12);
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 150ms;
+  }
+  .ctrl-btn:hover { background: rgba(255, 255, 255, 0.25); }
+  .ctrl-btn svg { width: 16px; height: 16px; }
+  .ctrl-counter {
+    color: white;
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+    padding: 0 8px;
+    min-width: 56px;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<div class="progress"><div class="progress-fill" id="progress" style="width: 6.66667%;"></div></div>
+
+<div class="stage">
+  <div class="deck" id="deck" style="transform: scale(1.56536);">
+
+    <!-- 1 — TITLE -->
+    <section class="slide slide-title active">
+      <div class="slide-eyebrow">Scan out the box · Discovery synthesis</div>
+      <h1>How customers use scan configuration in Burp Suite DAST</h1>
+      <h2>Six questions, six answers, one direction</h2>
+      <div class="meta">
+        <strong>Ric Corbally</strong> · Product Design · 30 April 2026<br>
+        Sources: Confluence narrative, internal interviews, TS templates,<br>
+        sites &amp; scans survey (n=32), 2026 roadmap survey (n=58), Salesforce (6 mo), Gong (customer conversations)
+      </div>
+    </section>
+
+    <!-- 2 — PART 1 DIVIDER -->
+    <section class="slide slide-divider">
+      <div class="part-num">Part one</div>
+      <h1>What we already know</h1>
+      <div class="part-sub">Three sources of pre-existing knowledge sitting in Confluence — the narrative, the interviews, and the support guide that customers can't see.</div>
+    </section>
+
+    <!-- 3 — THE NARRATIVE -->
+    <section class="slide">
+      <div class="slide-eyebrow">Source 1 · The narrative</div>
+      <h1>Customers don't stay on presets</h1>
+      <h2>Custom-config drift is universal — and it's a commercial risk, not a usability nag</h2>
+
+      <div class="big-stat">
+        <span class="big-stat-value">65<span class="big-stat-suffix">%</span></span>
+        <span class="big-stat-label">of logos run a <strong>custom config</strong> by day 365<br><span style="color:var(--c-text-secondary); font-size:18px;">30% by day 30</span></span>
+      </div>
+
+      <div class="quote is-orange" style="margin-top:8px;">
+        Failed scans erode trust during POCs, slow onboarding, inflate support cost, and cause large customers to cap or abandon usage. Competitors increasingly position themselves as low-friction, architecture-aware DAST.
+        <cite>Scan out the box narrative · Confluence 604012618</cite>
+      </div>
+
+      <div class="slide-footer">
+        <span class="section-tag">Part 1 · What we already know</span>
+        <span class="source-tag">Confluence 604012618</span>
+      </div>
+    </section>
+
+    <!-- 4 — INTERNAL INTERVIEWS -->
+    <section class="slide">
+      <div class="slide-eyebrow">Source 2 · Internal stakeholder chats</div>
+      <h1>What Sales, SEs and Support keep telling us</h1>
+      <h2 style="margin-bottom:18px;">Six themes show up across every role we've interviewed</h2>
+
+      <div class="tile-grid">
+        <div class="tile">
+          <div class="tile-num">Theme 01</div>
+          <div class="tile-title">Presets hit a maturity ceiling fast</div>
+          <div class="tile-body">First-value works, estate-wide progression doesn't.</div>
+        </div>
+        <div class="tile">
+          <div class="tile-num">Theme 02</div>
+          <div class="tile-title">Configuration is a scaling tax</div>
+          <div class="tile-body">"You see an initial bump in scanning and then it stalls or drops."</div>
+        </div>
+        <div class="tile">
+          <div class="tile-num">Theme 03</div>
+          <div class="tile-title">No visibility into what configs do</div>
+          <div class="tile-body">Customers can't see why a scan behaved the way it did.</div>
+        </div>
+        <div class="tile">
+          <div class="tile-num">Theme 04</div>
+          <div class="tile-title">SPAs and slow apps break defaults</div>
+          <div class="tile-body">Static, time-based presets misaligned with modern web.</div>
+        </div>
+        <div class="tile">
+          <div class="tile-num">Theme 05</div>
+          <div class="tile-title">Config thrashing as a coping mechanism</div>
+          <div class="tile-body">Customers throw URLs and toggles at coverage gaps blindly.</div>
+        </div>
+        <div class="tile">
+          <div class="tile-num">Theme 06</div>
+          <div class="tile-title">Strong pull for guided / adaptive config</div>
+          <div class="tile-body">Emerges organically across roles — not when prompted.</div>
+        </div>
+      </div>
+
+      <div class="slide-footer">
+        <span class="section-tag">Part 1 · What we already know</span>
+        <span class="source-tag">Confluence 978550791</span>
+      </div>
+    </section>
+
+    <!-- 5 — TS TEMPLATES -->
+    <section class="slide">
+      <div class="slide-eyebrow">Source 3 · Syed's scan config templates</div>
+      <h1>Tech support has an unofficial decision tree</h1>
+      <h2 style="margin-bottom:14px;">Configuration is determinable per app archetype — TS already classifies, the product doesn't</h2>
+
+      <div class="arch-grid">
+        <div class="arch">
+          <div class="arch-type">Static / Multi-page</div>
+          <div class="arch-config">crawl_strategy: normal · default crawl limit</div>
+          <div class="arch-note">Simple navigation, no SPA features. Preset "Crawl &amp; Audit – Fast" applies.</div>
+        </div>
+        <div class="arch">
+          <div class="arch-type">Static / MPA + session-limited</div>
+          <div class="arch-config">max_items_in_progress: 1 · parallel_crawl_and_audit: false</div>
+          <div class="arch-note">Manual JSON edit required — not exposed in the UI.</div>
+        </div>
+        <div class="arch">
+          <div class="arch-type">Single-page / Dynamic</div>
+          <div class="arch-config">crawl_strategy: most_complete · click_pointer_clickable: true</div>
+          <div class="arch-note">Modern SPAs need more crawl time and pointer-clickable detection.</div>
+        </div>
+        <div class="arch">
+          <div class="arch-type">SPA / Dynamic + session-limited</div>
+          <div class="arch-config">most_complete + max_items_in_progress: 1 + parallel: false</div>
+          <div class="arch-note">All four constraints layered — purely manual today.</div>
+        </div>
+      </div>
+
+      <p style="margin-top:18px; font-size:17px; color:var(--c-text-secondary);">
+        <strong style="color:var(--c-orange-1);">The implication:</strong> the system already has a model of best-per-archetype. Customers just can't see it, and the product doesn't apply it automatically.
+      </p>
+
+      <div class="slide-footer">
+        <span class="section-tag">Part 1 · What we already know</span>
+        <span class="source-tag">Confluence 233406469</span>
+      </div>
+    </section>
+
+    <!-- 6 — PART 2 DIVIDER -->
+    <section class="slide slide-divider">
+      <div class="part-num">Part two</div>
+      <h1>What we learned</h1>
+      <div class="part-sub">Two DAST surveys (n=90 combined), the last <strong style="color:white; font-weight:500;">six months</strong> of DAST-only Salesforce support data, and a synthesis of customer conversations from Gong (drawn from Gong's AI assistant summaries, not raw transcripts) — testing the assertions, triangulated against three sources of evidence per question.</div>
+    </section>
+
+    <!-- 7 — Q1 (PANORAMA / OVERARCHING) -->
+    <section class="slide">
+      <div class="slide-eyebrow">Part 2 · Question 01 · The overarching question</div>
+      <div class="q-question">How are scan configurations used across our customers? What patterns can we identify?</div>
+      <div class="q-answer-compact">Three patterns: <strong>universal entry</strong> · <strong>wrong dimension</strong> · <strong>fast drift off</strong>.</div>
+      <div class="q-summary">Almost every customer starts on a built-in <strong>preset</strong> scan configuration. The presets are organised by <strong>how long the scan takes</strong> (Lightweight / Balanced / Deep) rather than by the <strong>type of application</strong> being scanned, so they frequently don't match what the customer needs. Within a year, two-thirds of customers have drifted off presets onto custom configurations — and the journey is one-way.</div>
+      <div class="confidence-pill">
+        <span class="confidence-dot" style="background:#FF6633;"></span>
+        <span><strong>Confidence 75%</strong><span class="confidence-sep">·</span><span class="rationale">three patterns triangulated across narrative + interviews + TS doc + survey verbatims; weaker on the precise 30% / 65% drift figures — the narrative doesn't cite source data</span></span>
+      </div>
+
+      <div class="evidence-grid">
+
+        <div class="evidence-col">
+          <div class="evidence-header">Pattern 01 · Universal entry <span class="src">SF + interviews · 6 mo</span></div>
+          <div class="evidence-stat">~100<span class="unit">% start here</span></div>
+          <div class="evidence-stat-caption">Almost every DAST customer starts on a <strong>preset</strong> — "Crawl &amp; Audit – Lightweight / Balanced / Deep" is the default UX path</div>
+          <ul class="evidence-bullets">
+            <li><strong>271 ScanningIssues cases</strong> in the last 6 months — mostly from customers who began on a preset and hit a coverage gap</li>
+            <li>Even <strong>Tier 1 enterprises</strong> (T-Mobile, Cisco, HPE, US SEC, Accenture) appear in the queue having started on presets</li>
+            <li><strong>Telemetry gap:</strong> Salesforce doesn't capture <em>which</em> preset was selected — product-data pull needed</li>
+          </ul>
+        </div>
+
+        <div class="evidence-col">
+          <div class="evidence-header">Pattern 02 · Wrong dimension <span class="src">Surveys + interviews</span></div>
+          <div class="evidence-stat">9<span class="unit">/32 (28%)</span></div>
+          <div class="evidence-stat-caption">are <strong>confused by scan configurations</strong> — taxonomy signals duration (Lightweight / Balanced / Deep), not application behaviour</div>
+          <ul class="evidence-bullets">
+            <li>No preset matches a <strong>SPA</strong> out of the box — TS doc shows you must override Crawl Strategy → <em>Most Complete</em></li>
+            <li>No preset handles <strong>session-limited</strong> apps — requires JSON edit (<code style="font-family:var(--font-mono); font-size:11px;">max_items_in_progress: 1</code>)</li>
+            <li>Customers don't switch presets — they <strong>layer custom config on top</strong>. Selection is sticky, drift is one-way</li>
+          </ul>
+        </div>
+
+        <div class="evidence-col">
+          <div class="evidence-header">Pattern 03 · Fast drift off <span class="src">Narrative + SF · 6 mo</span></div>
+          <div class="evidence-stat">30<span class="unit">% / 65%</span></div>
+          <div class="evidence-stat-caption">of logos move from preset → custom config by <strong>day 30 / day 365</strong> — the killer drift stat from the narrative</div>
+          <ul class="evidence-bullets">
+            <li>Recurring preset-failure subjects in SF: <strong>"Crawl Depth Issue"</strong> (d-teknoloji), <strong>"Missing items in crawl"</strong> (Priceline), <strong>"Unable to Scan all URLs"</strong> (NY OIT)</li>
+            <li>Customers re-arrive at <em>"please advise on scan config"</em> tickets <strong>after</strong> presets fail — never <em>before</em></li>
+            <li>Drift is one-way: <strong>0%</strong> of evidence shows customers reverting from custom back to a preset</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="signpost signpost-compact">
+        <span class="signpost-label">→ Next five questions explain <strong>why</strong>:</span>
+        <span class="signpost-inline">
+          <span><strong>Q02</strong> Why custom?</span>
+          <span class="signpost-dot">·</span>
+          <span><strong>Q03</strong> Defaults bad?</span>
+          <span class="signpost-dot">·</span>
+          <span><strong>Q04</strong> One best config?</span>
+          <span class="signpost-dot">·</span>
+          <span><strong>Q05</strong> User knowledge</span>
+          <span class="signpost-dot">·</span>
+          <span><strong>Q06</strong> What makes users happy</span>
+        </span>
+      </div>
+
+      <div class="slide-footer">
+        <span class="section-tag">Part 2 · The overarching question</span>
+        <span class="source-tag">DAST surveys + Salesforce (6 mo) + interviews</span>
+      </div>
+    </section>
+
+    <!-- 8 — Q2 -->
+    <section class="slide">
+      <div class="slide-eyebrow">Part 2 · Question 02</div>
+      <div class="q-question">Why do people use custom configurations?</div>
+      <div class="q-answer-compact">Because the defaults <strong>broke on their app</strong>.</div>
+      <div class="q-summary">Customers don't sit down and choose to write a custom configuration — they're forced into one when a built-in preset fails to scan their application properly. The most common triggers are <strong>single-page applications, broken authentication, and the need to apply consistent settings across hundreds of similar sites</strong>. Compliance frameworks (NIST, HIPAA, FedRAMP) also push customers towards bespoke configurations.</div>
+      <div class="confidence-pill">
+        <span class="confidence-dot" style="background:#39A336;"></span>
+        <span><strong>Confidence 80%</strong><span class="confidence-sep">·</span><span class="rationale">headline strongly backed by 79 SF cases + 13/32 survey + multiple stakeholder quotes; compliance reason rests on a single customer (UCD Health), and the relative ranking of the five drivers is partly inferred</span></span>
+      </div>
+
+      <div class="evidence-grid">
+
+        <div class="evidence-col">
+          <div class="evidence-header">Survey signal <span class="src">DAST n=32 + n=58</span></div>
+          <div class="evidence-stat">14<span class="unit">/58</span></div>
+          <div class="evidence-stat-caption">rank "Scanning authenticated apps" as the <strong>#1</strong> investment area for 2026</div>
+          <ul class="evidence-bullets">
+            <li><strong>13/32 (40%)</strong> cite auth-config as a top pain</li>
+            <li><strong>11/32 (34%)</strong> cite scope-setting as confusing</li>
+            <li>Compliance asks: <strong>NIST 800-171, HIPAA, FedRAMP, CJIS, IRS 1075</strong> all named in magic-wand answers</li>
+          </ul>
+        </div>
+
+        <div class="evidence-col">
+          <div class="evidence-header">Salesforce signal <span class="src">DAST · 6 mo</span></div>
+          <div class="evidence-stat">79</div>
+          <div class="evidence-stat-caption">RecordedLogins cases — the largest sub-category of ScanningIssues</div>
+          <ul class="evidence-bullets">
+            <li><strong>62</strong> ScanAPI · <strong>41</strong> Non-standard Failures</li>
+            <li><strong>24</strong> CrawlerCoverage · <strong>25</strong> Connectivity</li>
+            <li>Repeat offenders in this window: <strong>Zions Bancorp ×4 in 4 weeks</strong>, AutoRABIT ×2, d-teknoloji ×2</li>
+          </ul>
+        </div>
+
+        <div class="evidence-col">
+          <div class="evidence-header">Verbatim signal <span class="src">DAST internal + customer</span></div>
+          <div class="evidence-quote">
+            "Application architecture is the primary determinant of scan configuration needs. Our scan configurations are based on scan time, not application type."
+            <cite>Syed · PortSwigger Tech Support</cite>
+          </div>
+          <div class="evidence-quote">
+            "Pre-defined scan settings… NIST 800-171, HIPAA, California Data Privacy, CJIS, FedRAMP high/medium/low, IRS 1075."
+            <cite>UCD Health · roadmap survey magic wand</cite>
+          </div>
+          <div class="evidence-quote">
+            "High number of subdomains but they all act the same way. Being able to modify scan settings for multiple different domains would be ideal."
+            <cite>Burns &amp; McDonnell · sites/scans survey</cite>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="slide-footer">
+        <span class="section-tag">Part 2 · What we learned</span>
+        <span class="source-tag">DAST surveys + Salesforce</span>
+      </div>
+    </section>
+
+    <!-- 9 — Q3 -->
+    <section class="slide">
+      <div class="slide-eyebrow">Part 2 · Question 03</div>
+      <div class="q-question">Are the default configs perceived as bad?</div>
+      <div class="q-answer-compact">Yes — they're sized along the <strong>wrong dimension</strong>.</div>
+      <div class="q-summary">Yes, customers think the defaults are inadequate — but for a specific, principled reason. Preset names describe <strong>scan duration</strong> (Lightweight, Balanced, Deep), not <strong>application architecture</strong>. Modern web apps need different scan strategies depending on whether they're a SPA, a multi-page site, or have session limits — and no current preset reflects that. Customers also can't see what each preset actually does, so they can't judge whether one fits.</div>
+      <div class="confidence-pill">
+        <span class="confidence-dot" style="background:#FF6633;"></span>
+        <span><strong>Confidence 75%</strong><span class="confidence-sep">·</span><span class="rationale">perception is well-evidenced (Maia, Tom Law, Siemens, Priceline + 28% survey); "sized along the wrong dimension" is my framing — what customers literally voice is opacity ("doesn't tell me what's happening"), not the framing axis itself</span></span>
+      </div>
+
+      <div class="evidence-grid">
+
+        <div class="evidence-col">
+          <div class="evidence-header">Survey signal + Gong <span class="src">DAST n=32 + n=58 · Gong</span></div>
+          <div class="evidence-stat">28<span class="unit">%</span></div>
+          <div class="evidence-stat-caption">of sites/scans-survey respondents flag scan-config confusion as a top pain</div>
+          <ul class="evidence-bullets">
+            <li>Free-text: <strong>"If I change a param on a custom configuration, on a site that already has scans, it starts to behave strange"</strong> (Umeå Univ.)</li>
+            <li>Free-text: <strong>"More details/feedback I can work on in case errors are encountered"</strong> (Eurofins)</li>
+            <li>Multiple "scan stuck" / "no debug info" magic-wand asks</li>
+            <li><strong>Gong:</strong> customers can't edit a scan configuration once it has been run — iterative adjustment requires creating an entirely new config, compounding the learning curve</li>
+          </ul>
+        </div>
+
+        <div class="evidence-col">
+          <div class="evidence-header">Salesforce signal <span class="src">DAST · 6 mo</span></div>
+          <div class="evidence-stat">353</div>
+          <div class="evidence-stat-caption">cases on the Scanner DAST component — by far the largest support driver among DAST components</div>
+          <ul class="evidence-bullets">
+            <li><strong>41 Non-standard Failures</strong> tagged — scans behaving outside expected patterns</li>
+            <li>Recurring case subjects: <strong>"Discovered URLs / Crawl Depth Issue"</strong>, <strong>"Burp DAST Unable to Scan all URLs"</strong></li>
+            <li>Tagged <strong>OtherScanningIssues: 26</strong> — taxonomy gap = customer can't classify their own issue</li>
+          </ul>
+        </div>
+
+        <div class="evidence-col">
+          <div class="evidence-header">Verbatim signal <span class="src">DAST internal + customer</span></div>
+          <div class="evidence-quote">
+            "Lightweight, deep, balanced… it doesn't really tell the customer what's happening."
+            <cite>Maia · Solutions Architect</cite>
+          </div>
+          <div class="evidence-quote">
+            "Right now it feels like Burp assumes traditional HTML sites from the 90s, which is not reality anymore."
+            <cite>Siemens · Product &amp; Solution Security · $160k ARR</cite>
+          </div>
+          <div class="evidence-quote">
+            "After a certain number of errors it just gives up. The scan shows as 'successful', but in reality it's skipped almost everything."
+            <cite>Priceline · $40k ACV opportunity</cite>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="slide-footer">
+        <span class="section-tag">Part 2 · What we learned</span>
+        <span class="source-tag">DAST surveys + Salesforce + Gong</span>
+      </div>
+    </section>
+
+    <!-- 10 — Q4 -->
+    <section class="slide">
+      <div class="slide-eyebrow">Part 2 · Question 04</div>
+      <div class="q-question">Do people think there is one best config?</div>
+      <div class="q-answer-compact">No. <span class="pro">One per archetype</span> — auto-picked.</div>
+      <div class="q-summary">Customers don't believe in a single magic configuration that works for every app. They believe each <strong>type</strong> of application (SPA, multi-page, static, dynamic, with or without session limits) needs its own configuration — and they want the product to <strong>detect the application type and apply the right one automatically</strong>, rather than asking them to choose blindly. This is the strongest, most repeated solution signal across every role we spoke to.</div>
+      <div class="confidence-pill">
+        <span class="confidence-dot" style="background:#39A336;"></span>
+        <span><strong>Confidence 85%</strong><span class="confidence-sep">·</span><span class="rationale">strongest signal in the deck — independent quotes from T-Mobile, Maia, Syed, Alex Scott and Interpublic all converge on the same model; TS template doc proves the typology already exists internally; no counter-evidence found</span></span>
+      </div>
+
+      <div class="evidence-grid">
+
+        <div class="evidence-col">
+          <div class="evidence-header">Survey signal <span class="src">DAST n=58</span></div>
+          <div class="evidence-stat">14<span class="unit">/58</span></div>
+          <div class="evidence-stat-caption">rank <strong>"Scanning authenticated applications"</strong> the #1 investment ask for 2026 — across <em>all</em> rank positions, 14 mentions</div>
+          <ul class="evidence-bullets">
+            <li>Magic-wand asks include <strong>compliance-pinned templates</strong> (UCD Health), <strong>"automated DevSecOps / continuous detection"</strong> (gem.gov.in), <strong>"best practice guide"</strong> for developers (Interpublic)</li>
+            <li>10/58 rank "Scan intelligence — better crawl coverage" in their top 3</li>
+          </ul>
+        </div>
+
+        <div class="evidence-col">
+          <div class="evidence-header">Salesforce signal <span class="src">DAST · 6 mo</span></div>
+          <div class="evidence-stat">4 <span class="unit">archetypes</span></div>
+          <div class="evidence-stat-caption">Tech support already runs an unofficial typology — recurring "request for scan config" cases prove the demand</div>
+          <ul class="evidence-bullets">
+            <li>Case subjects: <strong>"Request for advice on scan config"</strong> (CPX), <strong>"Regarding Burp DAST scanning configurations"</strong> (Accenture)</li>
+            <li>TS template doc has <strong>4 deterministic recipes</strong> per architecture (Static / MPA, MPA-session, SPA, SPA-session)</li>
+          </ul>
+        </div>
+
+        <div class="evidence-col">
+          <div class="evidence-header">Verbatim signal <span class="src">DAST internal + customer</span></div>
+          <div class="evidence-quote is-pro">
+            "Can DAST not pre-determine scan configurations based on the application?"
+            <cite>T-Mobile · $307k ACV</cite>
+          </div>
+          <div class="evidence-quote is-pro">
+            "I think there's a big opportunity to do something like a discovery crawl and let AI determine the best scan configuration."
+            <cite>Maia · Solutions Architect</cite>
+          </div>
+          <div class="evidence-quote is-pro">
+            "If we have better washing-machine configs and people can just select one."
+            <cite>Syed · PortSwigger Tech Support</cite>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="slide-footer">
+        <span class="section-tag">Part 2 · What we learned</span>
+        <span class="source-tag">DAST survey + Salesforce + interviews</span>
+      </div>
+    </section>
+
+    <!-- 11 — Q5 -->
+    <section class="slide">
+      <div class="slide-eyebrow">Part 2 · Question 05</div>
+      <div class="q-question">How much do users know about the site they're configuring?</div>
+      <div class="q-answer-compact"><strong>Less</strong> than you'd expect — and it gets worse with scale.</div>
+      <div class="q-summary">Smaller customers usually know their applications well. Larger enterprises don't — security teams scan <strong>thousands of applications built by other teams</strong> and have very limited insight into how each one behaves (whether it's a SPA, what auth flow it uses, where the real content lives). The deeper expertise about which scan configuration fits which app sits with <strong>PortSwigger Tech Support</strong>, not with the customer.</div>
+      <div class="confidence-pill">
+        <span class="confidence-dot" style="background:#FF6633;"></span>
+        <span><strong>Confidence 70%</strong><span class="confidence-sep">·</span><span class="rationale">direction is clear (Interpublic, Mastercard, Rob Cornes, 11/32 scope confusion); "worse with scale" is anecdotal — no measured correlation between estate size and configuration confusion in the data we have</span></span>
+      </div>
+
+      <div class="evidence-grid">
+
+        <div class="evidence-col">
+          <div class="evidence-header">Survey signal + Gong <span class="src">DAST n=32 + n=58 · Gong</span></div>
+          <div class="evidence-stat">11<span class="unit">/32 (34%)</span></div>
+          <div class="evidence-stat-caption">cite <strong>"Setting the site/scan scope is confusing"</strong> as a top pain — proxy for not knowing the site</div>
+          <ul class="evidence-bullets">
+            <li>Free-text: <strong>"Few times I had errors — out of scope"</strong> (GEA)</li>
+            <li>Free-text: <strong>"Challenging for APIs when we have two different endpoints; difficult to define the scope"</strong> (Umeå)</li>
+            <li>Free-text: <strong>"Authentication fails intermittently, Burp Suite Enterprise does not provide any useful debugging information"</strong> (Burns &amp; McDonnell)</li>
+            <li><strong>Gong:</strong> absence of verbose scan logs makes auth debugging a guessing game — customers can't confirm whether tokens are being attached in requests, turning every auth failure into a prolonged troubleshooting process</li>
+          </ul>
+        </div>
+
+        <div class="evidence-col">
+          <div class="evidence-header">Salesforce signal <span class="src">DAST · 6 mo</span></div>
+          <div class="evidence-stat">79</div>
+          <div class="evidence-stat-caption">RecordedLogins cases — the fact that auth opacity drives the largest queue means customers can't see what their scan is doing</div>
+          <ul class="evidence-bullets">
+            <li>Subjects ask "what did the scan do?": <strong>"Question About URL Discovery Differences"</strong> (US SEC), <strong>"Multiple Login Attempts During Scan"</strong> (PSI Online), <strong>"Crawl not discovering all URLs"</strong> (Everbridge)</li>
+            <li>Repeated <strong>"DAST scan failed — please advise"</strong> patterns from large customers</li>
+          </ul>
+        </div>
+
+        <div class="evidence-col">
+          <div class="evidence-header">Verbatim signal <span class="src">DAST internal + customer</span></div>
+          <div class="evidence-quote">
+            "We have 1000s of developers across our enterprise and they develop sites ranging from static to dynamic complexity."
+            <cite>Interpublic · Enterprise Security Engineer · $52k ACV</cite>
+          </div>
+          <div class="evidence-quote">
+            "Mastercard… so many different apps, so many different teams. How do you scale that?"
+            <cite>Alex Simmons · Account Executive</cite>
+          </div>
+          <div class="evidence-quote">
+            "Customers don't know if the scanner stopped because it finished or because the config told it to stop."
+            <cite>Rob Cornes · Sales Engineer</cite>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="slide-footer">
+        <span class="section-tag">Part 2 · What we learned</span>
+        <span class="source-tag">DAST surveys + Salesforce + Gong</span>
+      </div>
+    </section>
+
+    <!-- 12 — Q6 -->
+    <section class="slide">
+      <div class="slide-eyebrow">Part 2 · Question 06</div>
+      <div class="q-question">What makes users happy with scans?</div>
+      <div class="q-answer-compact">The <strong>absence</strong> of configuration.</div>
+      <div class="q-summary">Customers are happy when scans <strong>complete reliably</strong>, the coverage looks plausible, and they didn't have to tune anything or call support. <strong>Reliability and trust matter more</strong> to them than depth of configuration or granular control. The happy customers are the ones whose apps happen to fit a preset out of the box — not the ones who have learned to configure expertly.</div>
+      <div class="confidence-pill">
+        <span class="confidence-dot" style="background:#FF6633;"></span>
+        <span><strong>Confidence 70%</strong><span class="confidence-sep">·</span><span class="rationale">logic is sound and partly inferred from <em>absence</em> of complaints; 9/58 "smashing it" is a small sample with survivorship-bias risk — "no blockers" might mean indifference rather than delight</span></span>
+      </div>
+
+      <div class="evidence-grid">
+
+        <div class="evidence-col">
+          <div class="evidence-header">Survey signal <span class="src">DAST n=32 + n=58</span></div>
+          <div class="evidence-stat">9<span class="unit">/58 (16%)</span></div>
+          <div class="evidence-stat-caption">say <em>"None — we're smashing it!"</em> for CI/CD blockers — the small group running scans without intervention</div>
+          <ul class="evidence-bullets">
+            <li><strong>3/32</strong> sites/scans-survey respondents have no pain at all</li>
+            <li>Magic-wand patterns: <strong>fewer false positives, debug visibility, reproducibility, integrations</strong> — the asks of customers who already trust it</li>
+            <li>Common low-friction profile: <strong>modest estate, UI-driven, stable apps</strong></li>
+          </ul>
+        </div>
+
+        <div class="evidence-col">
+          <div class="evidence-header">Salesforce signal <span class="src">DAST · 6 mo</span></div>
+          <div class="evidence-stat">353<span class="unit"> vs ~2.1k</span></div>
+          <div class="evidence-stat-caption">Scanner cases as a share of all DAST cases — when the Scanner doesn't generate a ticket, customers are silent. Happiness is invisible by design.</div>
+          <ul class="evidence-bullets">
+            <li>Happy-tier customers <strong>don't open scan-config tickets</strong> — they appear in renewal flows, not technical support</li>
+            <li>Tier 1 accounts overrepresented in tickets — proxy for "high stakes ⇒ low tolerance for friction"</li>
+          </ul>
+        </div>
+
+        <div class="evidence-col">
+          <div class="evidence-header">Verbatim signal <span class="src">DAST internal + customer</span></div>
+          <div class="evidence-quote">
+            "Most customers expect scanning to just work out of the box. They don't understand why it didn't."
+            <cite>Maia · Solutions Architect (former TS)</cite>
+          </div>
+          <div class="evidence-quote">
+            "If there's some way they can get results with as little lift as possible… that's the ideal situation."
+            <cite>Alex Scott · Account Manager</cite>
+          </div>
+          <div class="evidence-quote">
+            "One of the Best tools for DAST." · Pain points: <em>"Nothing"</em>
+            <cite>CloudCardin, Carrefour Brazil · roadmap + sites/scans surveys</cite>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="slide-footer">
+        <span class="section-tag">Part 2 · What we learned</span>
+        <span class="source-tag">DAST surveys + Salesforce</span>
+      </div>
+    </section>
+
+    <!-- 13 — THE PLOT TWIST -->
+    <section class="slide">
+      <div class="slide-eyebrow">Part 2 · One thing the data changes</div>
+      <h1>The narrative under-weights authentication</h1>
+      <h2 style="margin-bottom:18px;">SPA crawl is the most quotable failure mode — but auth fills the DAST support queue</h2>
+
+      <div class="bars">
+        <div class="bar-row">
+          <span class="bar-label">RecordedLogins</span>
+          <div class="bar-track"><div class="bar-fill is-red" style="width:100%;"></div></div>
+          <span class="bar-value">79</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-label">ScanAPI</span>
+          <div class="bar-track"><div class="bar-fill is-orange" style="width:78%;"></div></div>
+          <span class="bar-value">62</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-label">Non-standard Failures</span>
+          <div class="bar-track"><div class="bar-fill" style="width:52%;"></div></div>
+          <span class="bar-value">41</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-label">OtherScanningIssues</span>
+          <div class="bar-track"><div class="bar-fill is-grey" style="width:33%;"></div></div>
+          <span class="bar-value">26</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-label">Connectivity</span>
+          <div class="bar-track"><div class="bar-fill is-grey" style="width:32%;"></div></div>
+          <span class="bar-value">25</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-label">CrawlerCoverage</span>
+          <div class="bar-track"><div class="bar-fill is-grey" style="width:30%;"></div></div>
+          <span class="bar-value">24</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-label">ScanSPA <span style="color:var(--c-red-2); font-size:13px;">(under-tagged)</span></span>
+          <div class="bar-track"><div class="bar-fill is-grey" style="width:2.5%;"></div></div>
+          <span class="bar-value">2</span>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:18px; max-width:1100px;">
+        <p style="font-size:14px; color:var(--c-text-body); line-height:1.5;">
+          <strong style="color:var(--c-text-header);">Repeat offenders</strong> in the auth queue: <strong>Zions Bancorp (×4 in March)</strong>, AutoRABIT (×2), HPE, Coalfire, Cisco, T-Mobile, US SEC, Epicor. Tier 1 enterprise accounts dominate.
+        </p>
+        <p style="font-size:14px; color:var(--c-text-body); line-height:1.5;">
+          <strong style="color:var(--c-red-2);">Taxonomy hides SPA:</strong> only 2 cases tagged ScanSPA, despite SPA being the dominant interview theme. SPA failures are getting tagged as <em>RecordedLogins</em> or <em>CrawlerCoverage</em> — we should retag a CrawlerCoverage sample to size honestly.
+        </p>
+      </div>
+
+      <div class="slide-footer">
+        <span class="section-tag">Part 2 · What we learned</span>
+        <span class="source-tag">Salesforce · DAST/BSEE only · last 6 months</span>
+      </div>
+    </section>
+
+    <!-- 14 — RECOMMENDATIONS -->
+    <section class="slide">
+      <div class="slide-eyebrow">Implications</div>
+      <h1>Three strategic moves</h1>
+      <h2 style="margin-bottom:8px;">In priority order, sequenced by support pain not quotability</h2>
+
+      <div class="rec-grid">
+        <div class="rec">
+          <div class="rec-num">Move 01</div>
+          <div class="rec-title">Reframe presets along architecture</div>
+          <div class="rec-body">Replace "Lightweight / Balanced / Deep" with archetype-based defaults that match how customers and TS already think. Syed's template doc is the ready-made decision tree.</div>
+        </div>
+        <div class="rec">
+          <div class="rec-num">Move 02</div>
+          <div class="rec-title">Detect, don't ask</div>
+          <div class="rec-body">A discovery probe that classifies the site (SPA / MPA / Static / Dynamic, session-limited y/n) and routes to the right config. Solves the knowledge-gap problem at enterprise scale.</div>
+        </div>
+        <div class="rec">
+          <div class="rec-num">Move 03</div>
+          <div class="rec-title">Lead with authentication</div>
+          <div class="rec-body">Recorded-login resilience is the largest queue (79 cases in the last 6 months) and the #1 ranked 2026 investment ask. SPA crawl is the strategic story; auth is the right place to start shipping.</div>
+        </div>
+      </div>
+
+      <div class="slide-footer">
+        <span class="section-tag">Implications</span>
+        <span class="source-tag">Discovery synthesis</span>
+      </div>
+    </section>
+
+    <!-- 15 — CLOSING -->
+    <section class="slide slide-divider">
+      <div class="part-num">In summary</div>
+      <div class="closing-stat">
+        <em>Scan out the box</em> is the right project. The new data <strong>sharpens the sequencing</strong> — start with authentication, classify by architecture, ship the decision tree TS already runs in their heads.
+      </div>
+      <div class="closing-cta">
+        <strong>Open question:</strong> Salesforce holds support symptoms, not product telemetry. We need a one-off pull on (preset_used, time_to_first_custom_config, custom_config_count_per_site, scan_outcome) sliced by archetype to measure whether <em>Scan out the box</em> is succeeding once shipped.
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<div class="controls">
+  <button class="ctrl-btn" id="prev" aria-label="Previous slide">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  </button>
+  <span class="ctrl-counter" id="counter">1 / 15</span>
+  <button class="ctrl-btn" id="next" aria-label="Next slide">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+  </button>
+</div>
+
+<script>
+(() => {
+  const deck = document.getElementById('deck');
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const counter = document.getElementById('counter');
+  const progress = document.getElementById('progress');
+  const total = slides.length;
+  let current = 0;
+
+  function show(i) {
+    current = Math.max(0, Math.min(total - 1, i));
+    slides.forEach((s, idx) => s.classList.toggle('active', idx === current));
+    counter.textContent = `${current + 1} / ${total}`;
+    progress.style.width = `${((current + 1) / total) * 100}%`;
+    history.replaceState(null, '', `#${current + 1}`);
+  }
+
+  function fitDeck() {
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const scale = Math.min(vw / 1280, vh / 720) * 0.94;
+    deck.style.transform = `scale(${scale})`;
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (['ArrowRight', 'PageDown', ' '].includes(e.key)) { show(current + 1); e.preventDefault(); }
+    else if (['ArrowLeft', 'PageUp'].includes(e.key)) { show(current - 1); e.preventDefault(); }
+    else if (e.key === 'Home') show(0);
+    else if (e.key === 'End') show(total - 1);
+  });
+
+  document.getElementById('prev').addEventListener('click', () => show(current - 1));
+  document.getElementById('next').addEventListener('click', () => show(current + 1));
+
+  deck.addEventListener('click', (e) => {
+    if (e.target.closest('a, button')) return;
+    show(current + 1);
+  });
+
+  window.addEventListener('resize', fitDeck);
+  fitDeck();
+
+  const hash = parseInt(location.hash.replace('#', ''), 10);
+  if (hash && hash >= 1 && hash <= total) show(hash - 1);
+  else show(0);
+})();
+</script>
+
+
+
+</body></html>
