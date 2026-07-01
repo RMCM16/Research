@@ -1,1 +1,730 @@
-fafdsfsdfsfsfsadfsfsdfsdfss
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agentic Web Vulnerability Scanning — Market &amp; Customer Journey Research</title>
+<style>
+  :root{
+    --bg:#0e1116; --panel:#161b22; --panel-2:#1c232d; --line:#2a3340;
+    --ink:#e6edf3; --ink-dim:#9aa7b4; --ink-soft:#c4cdd6;
+    --accent:#7cf03a;        /* xbow-ish green, used sparingly */
+    --indigo:#5b4fff; --indigo-soft:#1d1b3a;
+    --amber:#ffb454; --red:#ff5d6c; --blue:#4aa8ff; --teal:#3ad6c0;
+    --r:10px;
+    --mw:1080px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased}
+  a{color:var(--blue);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .wrap{display:grid;grid-template-columns:248px minmax(0,1fr);gap:0;max-width:1480px;margin:0 auto}
+  /* TOC */
+  nav.toc{position:sticky;top:0;align-self:start;height:100vh;overflow:auto;
+    padding:28px 18px 60px;border-right:1px solid var(--line);background:#0b0e13}
+  nav.toc h2{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-dim);margin:22px 0 8px}
+  nav.toc a{display:block;color:var(--ink-soft);font-size:13.5px;padding:5px 10px;border-radius:7px;line-height:1.35}
+  nav.toc a:hover{background:var(--panel);text-decoration:none;color:#fff}
+  nav.toc .brand{font-weight:700;font-size:15px;color:#fff;letter-spacing:.02em}
+  nav.toc .brand span{color:var(--accent)}
+  nav.toc .sub{font-size:11.5px;color:var(--ink-dim);margin-top:4px}
+  main{padding:48px 56px 120px;max-width:calc(var(--mw) + 112px)}
+  /* Hero */
+  header.hero{border:1px solid var(--line);border-radius:16px;padding:38px 40px;
+    background:radial-gradient(1200px 400px at 0% -20%,rgba(124,240,58,.10),transparent 60%),linear-gradient(180deg,#12161d,#0f1319)}
+  header.hero .eyebrow{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-weight:700}
+  header.hero h1{font-size:40px;line-height:1.1;margin:14px 0 10px;letter-spacing:-.02em}
+  header.hero p.lede{font-size:18px;color:var(--ink-soft);max-width:760px;margin:0 0 18px}
+  .meta-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+  .pill{font-size:12.5px;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--panel);color:var(--ink-soft)}
+  .pill b{color:#fff}
+  h2.sec{font-size:27px;letter-spacing:-.01em;margin:64px 0 6px;padding-top:14px}
+  h2.sec .n{color:var(--accent);font-variant-numeric:tabular-nums;margin-right:10px;font-weight:700}
+  h3{font-size:20px;margin:38px 0 6px}
+  h4{font-size:15px;margin:22px 0 4px;color:var(--ink)}
+  p{color:var(--ink-soft)}
+  .lead{color:var(--ink);font-size:17px}
+  hr.div{border:0;border-top:1px solid var(--line);margin:40px 0}
+  .muted{color:var(--ink-dim)}
+  small{color:var(--ink-dim)}
+  /* callouts */
+  .note{border:1px solid var(--line);border-left:3px solid var(--blue);background:var(--panel);
+    border-radius:8px;padding:14px 18px;margin:18px 0;font-size:14.5px;color:var(--ink-soft)}
+  .note.warn{border-left-color:var(--amber)}
+  .note.key{border-left-color:var(--accent)}
+  .note.tip{border-left-color:var(--indigo)}
+  .note b{color:#fff}
+  /* cards */
+  .grid{display:grid;gap:16px}
+  .g2{grid-template-columns:1fr 1fr}
+  .g3{grid-template-columns:1fr 1fr 1fr}
+  .card{border:1px solid var(--line);background:var(--panel);border-radius:var(--r);padding:18px 20px}
+  .card h4{margin-top:0}
+  /* figure */
+  figure{margin:22px 0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--panel-2)}
+  figure .imgwrap{background:#0a0c10;text-align:center;max-height:560px;overflow:auto}
+  figure img{display:block;width:100%;height:auto}
+  figure.tall .imgwrap{max-height:640px}
+  figcaption{padding:11px 16px;font-size:13px;color:var(--ink-dim);border-top:1px solid var(--line);background:var(--panel)}
+  figcaption b{color:var(--ink-soft)}
+  .figrow{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .figrow figure{margin:0}
+  /* tables */
+  table{width:100%;border-collapse:collapse;margin:18px 0;font-size:13.5px}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--ink-dim);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;background:#0b0e13;position:sticky;top:0}
+  tr:hover td{background:#12161d}
+  td b{color:#fff}
+  .tbl-scroll{overflow:auto;border:1px solid var(--line);border-radius:12px}
+  /* badges */
+  .b{display:inline-block;font-size:11px;font-weight:600;padding:2px 9px;border-radius:999px;line-height:1.5;white-space:nowrap}
+  .b.yes{background:rgba(58,214,192,.14);color:#5fe6d3;border:1px solid rgba(58,214,192,.3)}
+  .b.part{background:rgba(255,180,84,.14);color:var(--amber);border:1px solid rgba(255,180,84,.3)}
+  .b.no{background:rgba(255,93,108,.13);color:var(--red);border:1px solid rgba(255,93,108,.3)}
+  .b.ver{background:rgba(124,240,58,.13);color:var(--accent);border:1px solid rgba(124,240,58,.3)}
+  .b.pos{background:rgba(74,168,255,.12);color:var(--blue);border:1px solid rgba(74,168,255,.3)}
+  .b.neu{background:#222a34;color:var(--ink-dim);border:1px solid var(--line)}
+  /* journey steps */
+  .journey{counter-reset:step;margin:26px 0}
+  .step{position:relative;border:1px solid var(--line);background:var(--panel);border-radius:12px;
+    padding:20px 22px 20px 64px;margin:14px 0}
+  .step::before{counter-increment:step;content:counter(step);position:absolute;left:18px;top:20px;
+    width:30px;height:30px;border-radius:50%;background:var(--accent);color:#06210a;font-weight:800;
+    display:flex;align-items:center;justify-content:center;font-size:15px}
+  .step h4{margin:0 0 4px;font-size:16.5px;color:#fff}
+  .step .who{font-size:12px;color:var(--ink-dim);margin-bottom:8px}
+  .stage-tag{font-size:11px;font-weight:600;color:var(--indigo);text-transform:uppercase;letter-spacing:.08em}
+  /* vendor head */
+  .vhead{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-top:8px}
+  .vhead h3{margin:0;font-size:24px}
+  .vhead .tag{font-size:12.5px;color:var(--ink-dim)}
+  .kv{display:grid;grid-template-columns:170px 1fr;gap:6px 14px;font-size:14px;margin:14px 0}
+  .kv dt{color:var(--ink-dim)}
+  .kv dd{margin:0;color:var(--ink-soft)}
+  .src{font-size:12.5px;color:var(--ink-dim);margin-top:8px}
+  .src a{color:var(--blue)}
+  ul.tight{margin:8px 0;padding-left:20px}
+  ul.tight li{margin:4px 0;color:var(--ink-soft)}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--ink-dim);margin:10px 0 0}
+  .toc-foot{margin-top:30px;font-size:11px;color:#566}
+  @media(max-width:980px){
+    .wrap{grid-template-columns:1fr}
+    nav.toc{display:none}
+    main{padding:28px 18px 80px}
+    .g2,.g3,.figrow{grid-template-columns:1fr}
+    header.hero h1{font-size:30px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<nav class="toc">
+  <div class="brand">Agentic Web Vuln Scanning</div>
+  <div class="sub">Market &amp; customer-journey research · Jun 2026</div>
+  <h2>Contents</h2>
+  <a href="#tldr">Executive summary</a>
+  <a href="#how">How to read this report</a>
+  <a href="#spectrum">1 · Agentic vs "AI-washed"</a>
+  <a href="#who">2 · Who offers it (landscape matrix)</a>
+  <a href="#journey-model">3 · The shared journey model</a>
+  <h2>Deep dives</h2>
+  <a href="#xbow">4 · XBOW — full journey</a>
+  <a href="#runsybil">5 · RunSybil (Sybil)</a>
+  <a href="#terra">6 · Terra Security</a>
+  <a href="#ethiack">7 · Ethiack (Hackian)</a>
+  <a href="#aikido">8 · Aikido — Attack AI Pentest</a>
+  <a href="#zeropath">9 · ZeroPath (contrast)</a>
+  <h2>Synthesis</h2>
+  <a href="#evidence">10 · Hard evidence: Doyensec head-to-head</a>
+  <a href="#grid">11 · Cross-vendor journey grid</a>
+  <a href="#patterns">12 · UX patterns for Burp DAST</a>
+  <a href="#caveats">13 · Caveats &amp; open questions</a>
+  <a href="#sources">14 · Sources &amp; screenshot index</a>
+  <div class="toc-foot">Prepared for a Burp Suite DAST product designer.<br>Screenshots captured live Jun&nbsp;2026.</div>
+</nav>
+
+<main>
+
+<header class="hero">
+  <div class="eyebrow">Competitive &amp; UX Research</div>
+  <h1>Agentic web vulnerability scanning:<br>who offers it &amp; what the customer experience looks like</h1>
+  <p class="lede">A landscape map of autonomous AI penetration-testing products for web apps, plus the customer journey — onboarding to remediation — for the genuinely agentic leaders, mapped step-by-step with screenshots.</p>
+  <div class="meta-row">
+    <span class="pill"><b>13</b> vendors surveyed</span>
+    <span class="pill"><b>6</b> deep journey maps</span>
+    <span class="pill"><b>20+</b> screenshots</span>
+    <span class="pill">Method: <b>multi-source + adversarial verification</b></span>
+    <span class="pill">Date: <b>26 Jun 2026</b></span>
+    <span class="pill">Updated: <b>30 Jun 2026</b> — Doyensec head-to-head folded in</span>
+  </div>
+</header>
+
+<!-- ============================ TL;DR ============================ -->
+<h2 class="sec" id="tldr"><span class="n">§</span>Executive summary</h2>
+<p class="lead">Yes — this was very doable. The genuinely agentic web-app pentest market separates cleanly from "AI-washed" DAST, and the leaders are surprisingly open about their UX because <b>making the agent's reasoning legible is itself the product</b>.</p>
+
+<div class="grid g2" style="margin-top:18px">
+  <div class="card">
+    <h4>Who genuinely offers it</h4>
+    <p style="font-size:14.5px;margin:0">Five verified, fully-agentic web-app pentest players: <b>XBOW</b>, <b>RunSybil (Sybil)</b>, <b>Terra Security</b>, <b>Ethiack (Hackian)</b>, and <b>Aikido (Attack AI Pentest)</b> — the last added 30 Jun after an independent head-to-head test surfaced it as a genuine agentic pentester, not just an AppSec-consolidation platform. These run autonomous AI agents that reason like attackers, chain vulnerabilities, and validate exploitability. <b>OpenAI's Aardvark</b> is the same idea aimed at code. A large second tier ("AI-powered" DAST / autonomous pentest) sits behind them with weaker or code-centric agency.</p>
+  </div>
+  <div class="card">
+    <h4>The one UX idea that defines the category</h4>
+    <p style="font-size:14.5px;margin:0">Every leader sells <b>proof, not findings</b>. The centrepiece of each product is a <b>reproducible "case file" / trace</b>: the chained attack path, a working exploit, and a full log of the agent's decisions — so the user trusts a machine that hacked their app. Severity scores are demoted; the reasoning log is promoted.</p>
+  </div>
+</div>
+
+<h4>The five things most relevant to Burp DAST</h4>
+<ol>
+  <li><b>Validated findings only.</b> All the leaders gate findings on confirmed exploitability ("non-destructive challenges", "validated findings only") to kill DAST's false-positive reputation — and the independent test (§10) confirms it works: false-positive rates were 0–11%.</li>
+  <li><b>Reasoning is the trust mechanism.</b> A "View&nbsp;Trace" / decision-log / agent-activity view is the headline feature, not a buried tab.</li>
+  <li><b>Named multi-agent activity</b> (RunSybil's "Discovery Agent / Attack Agent validating XSS in real time") is how in-run progress is visualised — much richer than a scan progress bar.</li>
+  <li><b>An explicit autonomous-vs-intervene axis.</b> Terra makes "Human-in-the-Loop, controllability over speed" the differentiator; XBOW &amp; RunSybil lean fully-autonomous-with-observability. This is a deliberate design choice, not a default.</li>
+  <li><b>Replay / instant re-test</b> as the remediation loop: a button to re-run the exact exploit and confirm a fix in hours, plus one-click ticket hand-off.</li>
+</ol>
+
+<div class="note key"><b>Access models diverge sharply</b> — and that itself is a design signal. <b>Ethiack</b> and <b>Aikido</b> are genuinely self-serve (Ethiack: 30-day free trial; Aikido: credit-based, buy &amp; launch in &lt;20&nbsp;min with no sales call). <b>XBOW</b> publishes per-test pricing ($4k / $8k) that <em>looks</em> self-serve, but an independent 2026 test found kickoff is <b>sales-gated</b> in practice (manual approval + an out-of-platform DocuSign contract + 20+ support emails). <b>RunSybil</b> &amp; <b>Terra</b> are openly sales-led ("book a demo", no public pricing). The market is splitting between "swipe-a-card autonomous pentest" and "enterprise human+agent platform" — and at least one player's published self-serve story doesn't survive contact with the real flow.</div>
+
+<!-- ============================ HOW TO READ ============================ -->
+<h2 class="sec" id="how"><span class="n">§</span>How to read this report &amp; what's verified</h2>
+<p>This combines a fan-out deep-research pass (parallel web search → source fetch → <b>3-vote adversarial verification</b> of each claim → synthesis) with live screenshot capture of vendor sites and product docs. Confidence is labelled throughout:</p>
+<div class="legend">
+  <span><span class="b ver">Verified 3-0</span> claim survived adversarial fact-check against primary sources</span>
+  <span><span class="b pos">Vendor positioning</span> from the vendor's own pages; not independently benchmarked</span>
+  <span><span class="b neu">Analyst read</span> my interpretation / general knowledge, lower confidence</span>
+</div>
+<div class="note warn" style="margin-top:16px"><b>Honest limits.</b> Most evidence is vendor self-description for a fast-moving, recently-funded space. <b>One exception, added in the 30 Jun update:</b> Doyensec's independent head-to-head of <b>Aikido vs XBOW</b> (§10) is the only <em>non-vendor, benchmark-style</em> data in this report — real false-positive counts, severity-accuracy scoring, and observed run behaviour, with full in-product setup screenshots for both. (Caveat: that study was Aikido-sponsored — see §10/§13.) Everything else: the richest <em>in-product</em> screenshots are XBOW's (their docs console is public); RunSybil/Terra/Ethiack in-app shots are gated, so those journeys lean on marketing UI + verified text. Pricing and tiers are changing month-to-month (XBOW Lightspeed launched Nov 2025; RunSybil's $40M raise and Terra Portal both March 2026; Ethiack's public pricing page already 404'd between research passes).</div>
+
+<!-- ============================ 1 SPECTRUM ============================ -->
+<h2 class="sec" id="spectrum"><span class="n">1</span>Agentic vs "AI-washed": where the line actually is</h2>
+<p>"Agentic" is the most abused word in security marketing right now. The useful test that separates the real thing from a scanner with an LLM bolted on:</p>
+<div class="grid g2">
+  <div class="card" style="border-left:3px solid var(--accent)">
+    <h4 style="color:var(--accent)">Genuinely agentic</h4>
+    <ul class="tight">
+      <li><b>Reasons like an attacker</b> — forms hypotheses, not signature matches</li>
+      <li><b>Plans &amp; adapts</b> — changes strategy based on what it sees</li>
+      <li><b>Chains vulnerabilities</b> — combines low-sev issues into a real exploit path</li>
+      <li><b>Validates by exploitation</b> — proves impact in a sandbox / non-destructively</li>
+      <li><b>Black-box, no source needed</b> (XBOW, Sybil, Terra, Ethiack)</li>
+    </ul>
+  </div>
+  <div class="card" style="border-left:3px solid var(--amber)">
+    <h4 style="color:var(--amber)">"AI-washed" / AI-assisted</h4>
+    <ul class="tight">
+      <li>Traditional crawl-and-attack DAST with an <b>LLM for triage / summaries</b></li>
+      <li>AI used to <b>reduce false positives</b> or write remediation text</li>
+      <li><b>Code-centric</b> (SAST/SCA) with AI patching — not a black-box attacker</li>
+      <li>"Autonomous" = scheduled automation, not adaptive reasoning</li>
+    </ul>
+  </div>
+</div>
+<p class="muted" style="margin-top:14px;font-size:14px">Note this is a spectrum, not a binary — and vendors move along it. ZeroPath (§8) is the instructive contrast case: clearly "AI-native" and genuinely agentic <em>at the code level</em>, but it is not a black-box web-app pentest agent, so it doesn't belong in the same bucket as XBOW for this brief.</p>
+
+<!-- ============================ 2 WHO ============================ -->
+<h2 class="sec" id="who"><span class="n">2</span>Who offers it — the landscape matrix</h2>
+<p>Broad sweep, sorted from "purpose-built agentic web pentest" down through adjacent autonomous-pentest and AI-AppSec players. The <b>Agentic?</b> column is my read for the <em>web-application</em> use case specifically.</p>
+
+<div class="tbl-scroll">
+<table>
+<thead><tr>
+  <th>Vendor / product</th><th>What it is</th><th>Agentic (web)?</th><th>Primary target</th><th>Access model</th><th>Evidence</th>
+</tr></thead>
+<tbody>
+<tr><td><b>XBOW</b><br><small>Lightspeed / Enterprise</small></td><td>Autonomous AI pentester; on-demand &amp; continuous</td><td><span class="b yes">Yes — core</span></td><td>Web apps + APIs</td><td>Self-serve per-test ($4k/$8k) + Enterprise</td><td><span class="b ver">Verified 3-0</span></td></tr>
+<tr><td><b>RunSybil</b><br><small>Sybil</small></td><td>Black-box AI pentest; "reasons like an attacker"</td><td><span class="b yes">Yes — core</span></td><td>Web apps, APIs, cloud, infra</td><td>Sales-led (book demo) / early access</td><td><span class="b ver">Verified 3-0</span></td></tr>
+<tr><td><b>Terra Security</b><br><small>Terra Platform / Portal</small></td><td>Agentic pentest, Human-in-the-Loop guardrails</td><td><span class="b yes">Yes — core</span></td><td>Web apps (production)</td><td>Sales-led (book demo), no public pricing</td><td><span class="b ver">Verified 3-0</span></td></tr>
+<tr><td><b>Ethiack</b><br><small>Hackian</small></td><td>Autonomous "ethical hacking" agent + human layer</td><td><span class="b yes">Yes — core</span></td><td>Web apps, external attack surface</td><td><b>Self-serve</b>, 30-day free trial</td><td><span class="b ver">Verified 3-0</span></td></tr>
+<tr><td><b>OpenAI Aardvark</b></td><td>GPT-5 "agentic security researcher"; finds+validates+patches</td><td><span class="b part">Yes, but code-level</span></td><td>Source repos / commits</td><td>Private beta</td><td><span class="b ver">Verified 3-0</span></td></tr>
+<tr><td><b>ZeroPath</b></td><td>AI-native SAST/SCA/secrets/IaC (+ a DAST feature)</td><td><span class="b no">No — code-first</span></td><td>Source code &amp; PRs</td><td>Self-serve + sales</td><td><span class="b ver">Verified 3-0</span></td></tr>
+<tr><td><b>Horizon3.ai</b><br><small>NodeZero</small></td><td>Autonomous pentest platform</td><td><span class="b part">Partial — network-led</span></td><td>Internal/external network, some web</td><td>Sales-led / subscription</td><td><span class="b pos">Vendor positioning</span></td></tr>
+<tr><td><b>Pentera</b></td><td>Automated security / exposure validation</td><td><span class="b part">Partial — automation</span></td><td>Network, surface, some web app</td><td>Sales-led (enterprise)</td><td><span class="b pos">Vendor positioning</span></td></tr>
+<tr><td><b>Escape</b></td><td>"AI-powered offensive security" — API security + DAST</td><td><span class="b part">Emerging-agentic</span></td><td>APIs &amp; web apps</td><td>Self-serve + sales</td><td><span class="b neu">Analyst read</span></td></tr>
+<tr><td><b>Bright Security</b><br><small>(NeuraLegion)</small></td><td>Dev-first DAST/API; AI to cut false positives</td><td><span class="b part">AI-assisted DAST</span></td><td>Web apps &amp; APIs (CI/CD)</td><td>Self-serve + sales</td><td><span class="b neu">Analyst read</span></td></tr>
+<tr><td><b>StackHawk</b></td><td>Dev-first DAST; now "AI coding agent security"</td><td><span class="b part">AI-assisted DAST</span></td><td>Web/API in CI; AI-generated code</td><td>Self-serve + sales</td><td><span class="b neu">Analyst read</span></td></tr>
+<tr><td><b>Aikido</b><br><small>Attack AI Pentest</small></td><td>Unified AppSec platform; <b>Attack AI Pentest</b> module = agentic black-box/greybox web pentester</td><td><span class="b yes">Yes — core (Attack AI Pentest)</span></td><td>Web apps + APIs (source-aware)</td><td><b>Self-serve</b>, credit-based ($4k Standard)</td><td><span class="b ver">Verified (3rd-party test)</span></td></tr>
+<tr><td><b>Akto</b></td><td>API security; pivoting to "AI agent security"</td><td><span class="b part">API-agentic</span></td><td>APIs / AI agents</td><td>Self-serve + sales</td><td><span class="b neu">Analyst read</span></td></tr>
+<tr><td><b>Mindgard</b></td><td>AI/LLM red-teaming &amp; model security</td><td><span class="b no">No — not web DAST</span></td><td>AI models / LLM apps</td><td>Sales-led</td><td><span class="b neu">Analyst read</span></td></tr>
+</tbody>
+</table>
+</div>
+<p class="muted" style="font-size:13px">The five "Yes — core" rows are the focus of this report (Aikido promoted from the second tier on 30 Jun after the Doyensec test documented its Attack AI Pentest agent running a genuine autonomous black-box assessment). The remaining second tier is included for completeness and is labelled at lower confidence: the deep research pass verified the top tier and ZeroPath/Aardvark, but did not adversarially fact-check each second-tier vendor's agency claims, so treat those rows as positioning rather than verified capability.</p>
+
+<!-- ============================ 3 JOURNEY MODEL ============================ -->
+<h2 class="sec" id="journey-model"><span class="n">3</span>The shared customer-journey model</h2>
+<p>Across the leaders the journey collapses to the same seven stages. The deep dives below are organised against this spine, and §9 lays all vendors against it side-by-side.</p>
+<div class="grid g3">
+  <div class="card"><span class="stage-tag">Stage 1</span><h4 style="margin-top:2px">Get access</h4><p style="font-size:13.5px;margin:0">Self-serve trial, per-test purchase, or "book a demo". The single biggest divergence.</p></div>
+  <div class="card"><span class="stage-tag">Stage 2</span><h4 style="margin-top:2px">Add &amp; scope target</h4><p style="font-size:13.5px;margin:0">Target URL/API, in/out-of-scope boundaries, business context, "what matters".</p></div>
+  <div class="card"><span class="stage-tag">Stage 3</span><h4 style="margin-top:2px">Authentication</h4><p style="font-size:13.5px;margin:0">Test credentials, magic-link, recorded/scripted login, multiple roles.</p></div>
+  <div class="card"><span class="stage-tag">Stage 4</span><h4 style="margin-top:2px">Launch</h4><p style="font-size:13.5px;margin:0">One-click / API kickoff. No kickoff meeting. Pick depth/speed.</p></div>
+  <div class="card"><span class="stage-tag">Stage 5</span><h4 style="margin-top:2px">Watch the agent reason</h4><p style="font-size:13.5px;margin:0">Live progress as agent activity / decision log — the trust-building moment.</p></div>
+  <div class="card"><span class="stage-tag">Stage 6</span><h4 style="margin-top:2px">Findings + proof</h4><p style="font-size:13.5px;margin:0">Validated findings; each opens a trace with the exploit + reasoning.</p></div>
+  <div class="card"><span class="stage-tag">Stage 7</span><h4 style="margin-top:2px">Remediate &amp; re-test</h4><p style="font-size:13.5px;margin:0">Ticket hand-off + one-click replay to verify the fix in hours.</p></div>
+</div>
+<div class="note tip">The "intervene vs autonomous" control axis cuts across stages 4–6: does the user ever steer the agent <em>during</em> the run (Terra's HITL), or is all control after-the-fact via the reviewable log (XBOW/RunSybil)? This is the open design question most worth resolving for Burp DAST.</div>
+
+<div class="note key" style="margin-top:18px"><b>How the deep dives are framed.</b> Each vendor below is laid out as <b>the concrete steps a customer takes to set up and run an agentic scan</b> — get access → add target → set scope → authenticate → launch → watch it work → review findings → re-test. Publicly-documented steps are shown concretely; gated in-app steps are inferred from positioning and <span class="muted">marked</span> so you can see exactly where the evidence runs out. XBOW and Aikido are the most complete — XBOW's product docs are public, and Aikido's full wizard was captured in the independent test.</div>
+
+<!-- ============================ 4 XBOW ============================ -->
+<h2 class="sec" id="xbow"><span class="n">4</span>XBOW — the most fully-mapped journey</h2>
+<div class="vhead"><h3>XBOW</h3><span class="tag">"Anyone can claim to be the best AI hacker. Only XBOW can prove it."</span></div>
+<dl class="kv">
+  <dt>Category</dt><dd>Autonomous offensive-security platform — on-demand <em>and</em> continuous</dd>
+  <dt>Agency model</dt><dd>Fully autonomous "thousands of independent agents run real attacks simultaneously"; control is <b>after-the-fact via reviewable logs</b>, not in-run steering</dd>
+  <dt>Access &amp; pricing</dt><dd><span class="b ver">Verified 3-0</span> Per-test pricing is public: <b>Lightspeed Plus $4,000/test</b> (~2-week manual pentest depth), <b>Premium $8,000/test</b> (~4-week depth), <b>Enterprise</b> custom; on AWS/Azure Marketplace. <span class="b part">Reclassified 30 Jun</span> <b>but kickoff is sales-gated in practice</b> — Doyensec's 2026 test found launching a scan required manual sales approval, an out-of-platform DocuSign contract, and 20+ support emails (one run took &gt;1 week start-to-report). The "swipe-a-card" framing is marketing; the real flow is sales-led.</dd>
+  <dt>Time to results</dt><dd>Hours to ~5 business days; "no scoping calls or kickoff meetings"</dd>
+  <dt>Trust mechanism</dt><dd>The <b>reproducible case-file / "View Trace"</b> — chained attack path + working exploit + full decision log</dd>
+</dl>
+
+<figure class="tall">
+  <div class="imgwrap"><img src="assets/xbow-finding-trace.png" alt="XBOW Trace Details view"></div>
+  <figcaption><b>The centrepiece UX — "Trace Details".</b> XBOW exposes the agent's live reasoning ("Given our findings about the JWT structure and the use of the RS256 algorithm… Researching and implementing an exploit for a node-jose vulnerability") alongside the actual exploit code it wrote. This is how a vendor earns trust for a machine that hacked your app: nothing hidden behind a severity score. <span class="muted">Source: xbow.com/platform</span></figcaption>
+</figure>
+
+<h3>XBOW journey, step by step</h3>
+<p class="muted" style="font-size:14px">XBOW publishes a full product-docs console, so this journey is backed by <b>real in-product screenshots</b> rather than marketing mockups.</p>
+
+<div class="journey">
+  <div class="step">
+    <h4>Get access — a self-service form on the surface, sales-gated underneath</h4>
+    <div class="who"><span class="stage-tag">Stage 1 · Access</span> &nbsp;·&nbsp; <span class="b ver">Verified 3-0</span> &nbsp;·&nbsp; <span class="b part">Corrected 30 Jun</span></div>
+    <p style="margin:0 0 6px">You pick a tier (Plus / Premium / Enterprise) and complete a form: name, company, target URL, application name, billing. The marketing page frames the whole flow as a clean 5-step process — but the independent Doyensec test (§10) found the reality is <b>sales-gated</b>: after the form you hit an "Assessment pending — a member of the XBOW sales team will contact you" wall, sign a <b>DocuSign contract outside the platform</b>, and exchange 20+ emails before the scan starts. For their Fider target this took <b>over a week</b>, with the report arriving 5 days after the run. So XBOW is functionally closer to RunSybil/Terra than to the genuinely self-serve Ethiack/Aikido.</p>
+  </div>
+  <div class="step">
+    <h4>Add &amp; scope the target — set targets, boundaries &amp; context</h4>
+    <div class="who"><span class="stage-tag">Stage 2 · Scope</span></div>
+    <p style="margin:0">Supported targets are "web applications and their APIs" with interactive features. You "set targets, boundaries, authentication, and optional context to guide testing." The target must be fully functional (no incomplete onboarding flows) and either internet-accessible or IP-allowlisted for XBOW. The console has dedicated <em>Choosing targets</em>, <em>Provide target context</em> and <em>Scope configuration</em> steps.</p>
+  </div>
+  <div class="step">
+    <h4>Set up authentication — magic-link or credentialed, multiple concurrent sessions</h4>
+    <div class="who"><span class="stage-tag">Stage 3 · Auth</span></div>
+    <p style="margin:0 0 12px">A dedicated "Define authentication" step distinguishes <b>publicly accessible</b> targets from <b>authenticated</b> ones, supports <b>magic-link</b> and credential-based auth, and explicitly wants <b>multiple concurrent authenticated sessions</b> (or a "Sequential mode"), with activity-based session expiry rather than fixed timeouts.</p>
+    <figure style="margin:0">
+      <div class="imgwrap"><img src="assets/xbow-docs-auth.png" alt="XBOW console define-authentication docs"></div>
+      <figcaption><b>Real product docs:</b> the "Define authentication for testing" console step — public vs authenticated targets, magic-link, credential details, and guidance for IDOR-style multi-account testing. <span class="muted">Source: docs.xbow.com/console/how-to/define-authentication</span></figcaption>
+    </figure>
+  </div>
+  <div class="step">
+    <h4>Launch — one click or API, choose depth/speed</h4>
+    <div class="who"><span class="stage-tag">Stage 4 · Launch</span></div>
+    <p style="margin:0 0 12px">"You can start an assessment manually or via API." The flow goes Discover &amp; map attack surface → Execute parallel adaptive attacks. No kickoff meeting; you can launch "nights, weekends, or right before a deadline."</p>
+    <figure style="margin:0">
+      <div class="imgwrap"><img src="assets/xbow-docs-run.png" alt="XBOW console run assessment docs"></div>
+      <figcaption><b>"Run assessment"</b> console step — manual or API launch after a configuration check. <span class="muted">Source: docs.xbow.com/console/how-to/run-assessment</span></figcaption>
+    </figure>
+  </div>
+  <div class="step">
+    <h4>Watch it run — assessment states &amp; live progress</h4>
+    <div class="who"><span class="stage-tag">Stage 5 · In-run</span></div>
+    <p style="margin:0 0 12px">The console exposes explicit <b>assessment states</b> and lets you monitor progress as the agents work. XBOW's positioning here is observability rather than intervention — you watch, you don't steer mid-run.</p>
+    <figure style="margin:0">
+      <div class="imgwrap"><img src="assets/xbow-docs-monitor.png" alt="XBOW console monitor assessment docs"></div>
+      <figcaption><b>"Monitor assessment"</b> — assessment-state model and progress UI from the real console docs. <span class="muted">Source: docs.xbow.com/console/how-to/monitor-assessment</span></figcaption>
+    </figure>
+  </div>
+  <div class="step">
+    <h4>Review findings &amp; their proof — validated only, each with a trace</h4>
+    <div class="who"><span class="stage-tag">Stage 6 · Findings</span> &nbsp;·&nbsp; <span class="b ver">Verified 3-0</span></div>
+    <p style="margin:0 0 12px">"Findings are only surfaced once exploitability is confirmed through controlled, non-destructive challenges." Results sort by severity in a table; clicking a finding opens detail with <b>View Trace</b> (the agent's full reasoning) and <b>Download Trace</b> (Markdown). Each finding is a complete case file with developer-ready remediation.</p>
+    <figure style="margin:0">
+      <div class="imgwrap"><img src="assets/xbow-docs-results.png" alt="XBOW console explore and fix results docs"></div>
+      <figcaption><b>"Explore and fix results"</b> — findings table sorted by severity, "View Trace"/"Download Trace", and a "Mitigating findings" section. <span class="muted">Source: docs.xbow.com/console/how-to/explore-and-fix-results</span></figcaption>
+    </figure>
+  </div>
+  <div class="step">
+    <h4>Remediate &amp; re-test — instant verification, reporting, compliance</h4>
+    <div class="who"><span class="stage-tag">Stage 7 · Remediate</span></div>
+    <p style="margin:0">"Start a retest" re-runs the assessment to confirm fixes; findings get marked <b>Fixed</b> / <b>Intended</b>, and a new version of the report is generated. Deliverables: executive summary, technical findings, detailed remediation guidance, and compliance-ready docs (40+ frameworks). Enterprise adds <b>real-time streaming of findings</b> and a <b>vulnerability coverage map</b>.</p>
+  </div>
+</div>
+
+<div class="figrow">
+  <figure class="tall"><div class="imgwrap"><img src="assets/xbow-pentest-full.png" alt="XBOW Lightspeed pentest page"></div><figcaption><b>Stage 1 in marketing form:</b> the Lightspeed "On-Demand Pentesting" page — application form + "How it works" 5 steps + "Two ways to use XBOW". <span class="muted">xbow.com/pentest</span></figcaption></figure>
+  <figure class="tall"><div class="imgwrap"><img src="assets/xbow-platform-full.png" alt="XBOW platform page"></div><figcaption><b>The platform page</b> leads with a HackerOne-style leaderboard ("we're the whole leaderboard") and "Open a Finding. See the whole attack." — proof-as-marketing. <span class="muted">xbow.com/platform</span></figcaption></figure>
+</div>
+
+<div class="note warn"><b>Reality check from the field (Doyensec, 2026).</b> The first independent test of XBOW surfaced the gap between the polished docs and a live run — all of it useful design ammunition:
+<ul class="tight" style="margin:8px 0 0">
+  <li><b>Unguarded autonomy caused real damage.</b> Mid-run the agent <b>deleted the test user account</b> and <b>modified the app's auth mechanism</b> (both blocking further login), and the target EC2 box went unresponsive twice from resource exhaustion — the scan had to be paused/restarted multiple times. The app also fired <b>~4,800 one-time-token emails</b>, blowing past a mail-service quota. This is the strongest evidence yet that <b>scope/rate guardrails are load-bearing, not optional</b>.</li>
+  <li><b>Capability gaps:</b> at test time XBOW had <b>no multi-user testing</b> (single credential set only; multi-user is "on the roadmap") and <b>no social/SSO login</b> support — forcing a fallback to email auth and an admin account to widen coverage.</li>
+  <li><b>Report quality:</b> the deliverable is a <b>static PDF</b> with <b>no finding IDs</b> and an internally-inconsistent finding count (20 vs 25). Reviewers flagged some reproduction steps as "not complete / not fully usable" and PoC scripts truncated in the PDF — i.e. the <em>trace promise is only as good as how the proof is rendered</em>.</li>
+</ul></div>
+<div class="note key"><b>Why XBOW matters most for Burp DAST:</b> it's the clearest existence-proof that the <em>entire</em> journey — purchase → scope → auth → autonomous run → validated findings → trace → re-test — can ship without a human pentester in the loop, and that the trace/decision-log is what makes that acceptable to a buyer. The field test adds the flip-side lesson: that autonomy without configurable guardrails will damage live targets, and that the "proof" only builds trust if the reproduction steps are actually clean and complete.</div>
+
+<!-- ============================ 5 RUNSYBIL ============================ -->
+<h2 class="sec" id="runsybil"><span class="n">5</span>RunSybil (Sybil)</h2>
+<div class="vhead"><h3>RunSybil</h3><span class="tag">"Attack is your best defense." Founded by OpenAI's first security hire; $40M raised Mar 2026.</span></div>
+<dl class="kv">
+  <dt>Category</dt><dd>Black-box AI pentest — continuous, "reasons like an attacker"</dd>
+  <dt>Agency model</dt><dd><span class="b ver">Verified 3-0</span> Genuinely agentic: no source code needed; discovers forgotten endpoints, probes auth boundaries, <b>chains vulns across the stack</b>; agents learn &amp; improve with experience</dd>
+  <dt>Access &amp; pricing</dt><dd>Sales-led — "Schedule a demo" / early access; no public pricing</dd>
+  <dt>Time to results</dt><dd>"Zero to a comprehensive pentest report within two weeks"; attack-replay re-tests fixes in hours</dd>
+  <dt>Standout UX</dt><dd>The <b>live "agent activity network"</b> with named agents</dd>
+</dl>
+
+<figure class="tall">
+  <div class="imgwrap"><img src="assets/runsybil-home-full.png" alt="RunSybil homepage with product UI"></div>
+  <figcaption><b>RunSybil's site embeds the product UI.</b> Verified from the page's own image captions: an <b>"agent activity network"</b> showing a <b>Discovery Agent</b> and <b>Attack Agent</b> "validating an XSS finding in real time", and a findings dashboard with engagement status, CVSS scores (e.g. "Medium 5.2", "Critical 9.1") and controls to <b>open a ticket</b> and <b>replay the finding</b>. <span class="muted">Source: runsybil.com</span></figcaption>
+</figure>
+
+<h4>What the customer does — setup &amp; scan journey</h4>
+<p class="muted" style="font-size:13.5px;margin-top:2px">Sales-led, and the in-app flow is gated — so the setup steps are partly inferred. Gaps are marked.</p>
+<div class="journey">
+  <div class="step">
+    <h4>Request access &amp; onboard</h4>
+    <div class="who"><span class="stage-tag">Stage 1 · Access</span> &nbsp;·&nbsp; <span class="b ver">Verified</span></div>
+    <p style="margin:0">You hit <b>"Schedule a demo"</b> — there is no self-serve signup. Onboarding is concierge-style; RunSybil say you go from "zero to a comprehensive pentest report within two weeks."</p>
+  </div>
+  <div class="step">
+    <h4>Point Sybil at your apps &amp; estate</h4>
+    <div class="who"><span class="stage-tag">Stage 2 · Target &amp; scope</span></div>
+    <p style="margin:0">You hand over your applications / domains; Sybil then <b>maps the whole stack itself</b> (code, APIs, cloud, infra), focusing on the external perimeter / reconnaissance phase. Exact scoping fields aren't public. <span class="muted">(in-app detail gated)</span></p>
+  </div>
+  <div class="step">
+    <h4>Provide login details</h4>
+    <div class="who"><span class="stage-tag">Stage 3 · Auth</span></div>
+    <p style="margin:0">Authenticated testing is supported (Sybil "probes authentication boundaries"), but the credential-setup UI isn't documented publicly — likely captured during onboarding. <span class="muted">(gap — not publicly documented)</span></p>
+  </div>
+  <div class="step">
+    <h4>Let it run continuously</h4>
+    <div class="who"><span class="stage-tag">Stage 4 · Launch</span></div>
+    <p style="margin:0">Rather than a one-off kickoff, Sybil runs <b>continuously, on every deployment</b>.</p>
+  </div>
+  <div class="step">
+    <h4>Watch the agent activity network</h4>
+    <div class="who"><span class="stage-tag">Stage 5 · In-run</span> &nbsp;·&nbsp; <span class="b ver">Verified (marketing UI)</span></div>
+    <p style="margin:0">The standout step: a <b>live, named multi-agent activity network</b> — you watch the <b>Discovery Agent</b> and <b>Attack Agent</b> collaborate and validate a finding (e.g. an XSS) in real time. The clearest "reasoning visualised during the run" example in the market.</p>
+  </div>
+  <div class="step">
+    <h4>Review &amp; replay validated findings</h4>
+    <div class="who"><span class="stage-tag">Stage 6 · Findings</span></div>
+    <p style="margin:0">Findings show severity + CVSS, validated, with the exploit available to <b>replay</b>.</p>
+  </div>
+  <div class="step">
+    <h4>Open a ticket &amp; re-test the fix</h4>
+    <div class="who"><span class="stage-tag">Stage 7 · Remediate</span></div>
+    <p style="margin:0"><b>Open ticket</b> hands off to your tracker; <b>attack replay</b> instantly re-tests fixes to reach a clean report "in hours rather than weeks."</p>
+  </div>
+</div>
+<p class="src">Sources: <a href="https://www.runsybil.com/">runsybil.com</a> · <a href="https://www.runsybil.com/post/runsybil-raises-40m-to-build-the-ai-native-platform-for-offensive-security">$40M raise post</a> · corroborated by Fortune &amp; SiliconANGLE (18 Mar 2026). <span class="muted">Caveat: in-run UX details come from marketing screenshot captions, not a hands-on demo — exact button labels inferred.</span></p>
+
+<!-- ============================ 6 TERRA ============================ -->
+<h2 class="sec" id="terra"><span class="n">6</span>Terra Security</h2>
+<div class="vhead"><h3>Terra Security</h3><span class="tag">"Autonomous, with guardrails." The clearest human-in-the-loop model in the set.</span></div>
+<dl class="kv">
+  <dt>Category</dt><dd>Agentic offensive-security platform for production web apps; continuous</dd>
+  <dt>Agency model</dt><dd><span class="b ver">Verified 3-0</span> Autonomous but <b>deliberately constrained</b> — "prioritize controllability rather than brute speed and scale," with a <b>Human-in-the-Loop</b> guardrail on high-risk exploitation. "Ambient agents" run autonomously; "Copilot agents" pull in human experts for approved, controlled exploitation at high-risk decision points.</dd>
+  <dt>Business-context</dt><dd>Agent swarm "adapts to app workflows, authentication flows, and data handling" — context-aware, not generic scanning</dd>
+  <dt>Access &amp; pricing</dt><dd>Sales-led — "Book a demo," no self-serve, no public pricing</dd>
+  <dt>Standout UX</dt><dd><b>Terra Portal™</b> — "first-of-its-kind software for offensive-security researchers to collaborate with AI agents" (launched Mar 2026)</dd>
+</dl>
+
+<div class="figrow">
+  <figure><div class="imgwrap"><img src="assets/terra-hero.png" alt="Terra hero with product dashboard"></div><figcaption><b>Hero shows the product:</b> a dashboard with "Signals received 148", a Findings panel, and "Critical findings" — plus the "Explore Terra+" entry point. <span class="muted">terra.security</span></figcaption></figure>
+  <figure class="tall"><div class="imgwrap"><img src="assets/terra-home-full.png" alt="Terra full homepage"></div><figcaption>"<b>Human-On-the-Loop at critical decision points</b>", "Testing that adapts with your business context", and "Validated findings only" — Terra's whole pitch is controllability + signal. <span class="muted">terra.security</span></figcaption></figure>
+</div>
+
+<h4>What the customer does — setup &amp; scan journey</h4>
+<p class="muted" style="font-size:13.5px;margin-top:2px">Sales-led; in-app setup is gated, so some steps are inferred from positioning. Gaps are marked.</p>
+<div class="journey">
+  <div class="step">
+    <h4>Book a demo</h4>
+    <div class="who"><span class="stage-tag">Stage 1 · Access</span> &nbsp;·&nbsp; <span class="b ver">Verified</span></div>
+    <p style="margin:0">The only entry point is <b>"Book a demo"</b> — no self-serve signup, no public pricing.</p>
+  </div>
+  <div class="step">
+    <h4>Onboard your production app</h4>
+    <div class="who"><span class="stage-tag">Stage 2 · Target &amp; scope</span> &nbsp;·&nbsp; <span class="b ver">Verified (positioning)</span></div>
+    <p style="margin:0">Aimed at <b>live production web apps</b>. The agent swarm <b>adapts to your app's specific workflows, authentication flows and data handling</b> — business-context-aware rather than generic scanning.</p>
+  </div>
+  <div class="step">
+    <h4>Connect authentication</h4>
+    <div class="who"><span class="stage-tag">Stage 3 · Auth</span></div>
+    <p style="margin:0">Agents adapt to your authentication flows; the exact credential-setup UI isn't public. <span class="muted">(in-app detail gated)</span></p>
+  </div>
+  <div class="step">
+    <h4>Set guardrails &amp; start continuous testing</h4>
+    <div class="who"><span class="stage-tag">Stage 4 · Launch</span></div>
+    <p style="margin:0">Runs continuously. Crucially, <b>Human-in-the-Loop guardrails</b> for high-risk exploitation are defined up front — controllability is configured, not assumed.</p>
+  </div>
+  <div class="step">
+    <h4>Approve high-risk actions during the run</h4>
+    <div class="who"><span class="stage-tag">Stage 5 · In-run (intervene)</span> &nbsp;·&nbsp; <span class="b ver">Verified</span></div>
+    <p style="margin:0">The differentiator: at high-risk decision points the agent <b>pauses for human approval</b>. "Ambient agents" run autonomously; "Copilot agents" pull in human experts for approved, controlled exploitation. Researchers steer via <b>Terra Portal</b>.</p>
+  </div>
+  <div class="step">
+    <h4>Review validated, high-signal findings</h4>
+    <div class="who"><span class="stage-tag">Stage 6 · Findings</span></div>
+    <p style="margin:0"><b>"Validated findings only"</b> — reproducible, exploitability-confirmed, "rather than just more findings to triage."</p>
+  </div>
+  <div class="step">
+    <h4>Collaborate &amp; re-test via Terra Portal</h4>
+    <div class="who"><span class="stage-tag">Stage 7 · Remediate</span></div>
+    <p style="margin:0">Your team and offensive-security researchers work alongside the agents in the Portal to validate, direct re-tests, and close out.</p>
+  </div>
+</div>
+
+<h4>Why it's the key contrast to XBOW</h4>
+<p>Terra is the deliberate opposite of XBOW on the control axis. Where XBOW is "fully autonomous, trust the log afterwards," Terra builds <b>intervention into the run</b>: at high-risk moments the agent pauses for human approval, and the Terra Portal gives researchers a surface to <b>direct the agents</b>. For a Burp DAST designer this is the reference implementation of the "I'll drive / agent drives but I can intervene" pattern — it is exactly the locus-of-initiative question your own prototypes are exploring.</p>
+<p class="src">Sources: <a href="https://www.terra.security/terra-platform">terra.security/terra-platform</a> · corroborated by Help Net Security (10 Mar 2026, "human-governed AI to live production pentesting"), MSSP Alert, BusinessWire (Terra Portal launch).</p>
+
+<!-- ============================ 7 ETHIACK ============================ -->
+<h2 class="sec" id="ethiack"><span class="n">7</span>Ethiack (Hackian)</h2>
+<div class="vhead"><h3>Ethiack</h3><span class="tag">The only verified <b>self-serve</b> entry point in the agentic tier.</span></div>
+<dl class="kv">
+  <dt>Category</dt><dd>Autonomous "ethical hacking" — AI agent <b>Hackian</b> + a human elite-hacker layer</dd>
+  <dt>Agency model</dt><dd><span class="b ver">Verified 3-0</span> Multi-agent architecture (LLM "brain" + tools + prompt engineering) with <b>three layers of safety guardrails</b>; Hackian can "plan, execute tasks, actively probe systems, adapt strategies based on results, and operate with autonomy." Documented: full system compromise &lt;4h at a DEFCON CTF; one-click account-takeover→RCE on a target in ~1h40m.</dd>
+  <dt>Access &amp; pricing</dt><dd><span class="b ver">Verified 3-0</span> <b>Genuinely self-serve</b> — 30-day free trial at <code>portal.ethiack.com/signup</code> (work email / org / password, or Microsoft SSO). "No setup. No commitment. No automatic subscription." No waitlist.</dd>
+  <dt>Findings</dt><dd>"Every finding includes proof-of-exploitation and prioritized mitigation guidance"</dd>
+</dl>
+
+<div class="figrow">
+  <figure><div class="imgwrap"><img src="assets/ethiack-hero.png" alt="Ethiack hero"></div><figcaption><b>"Autonomous Ethical Hacking"</b> hero with a terminal-style agent demo. <span class="muted">ethiack.com</span></figcaption></figure>
+  <figure class="tall"><div class="imgwrap"><img src="assets/ethiack-home-full.png" alt="Ethiack homepage"></div><figcaption>Scroll-driven story: continuous autonomous hacking, "Stay secure with Ethiack", stats. <span class="muted">ethiack.com — animation-heavy; static capture under-renders.</span></figcaption></figure>
+</div>
+<h4>What the customer does — setup &amp; scan journey</h4>
+<p class="muted" style="font-size:13.5px;margin-top:2px">The one fully self-serve player — so the first steps are concrete and you could do them today. Later in-app steps are gated behind the trial.</p>
+<div class="journey">
+  <div class="step">
+    <h4>Sign up for the free trial</h4>
+    <div class="who"><span class="stage-tag">Stage 1 · Access</span> &nbsp;·&nbsp; <span class="b ver">Verified (live signup)</span></div>
+    <p style="margin:0">Go to <code>portal.ethiack.com/signup</code> and enter work email + organization + password (or Microsoft SSO). <b>30-day free trial — no waitlist, no setup, no commitment, no automatic subscription.</b></p>
+  </div>
+  <div class="step">
+    <h4>Add your target / attack surface</h4>
+    <div class="who"><span class="stage-tag">Stage 2 · Target &amp; scope</span></div>
+    <p style="margin:0">Register the web apps / external attack surface for Hackian to test. <span class="muted">(in-app field detail gated behind trial)</span></p>
+  </div>
+  <div class="step">
+    <h4>Configure authentication</h4>
+    <div class="who"><span class="stage-tag">Stage 3 · Auth</span></div>
+    <p style="margin:0">Set up how the agent authenticates to your app (configured in the portal; exact options gated). <span class="muted">(gap)</span></p>
+  </div>
+  <div class="step">
+    <h4>Launch Hackian</h4>
+    <div class="who"><span class="stage-tag">Stage 4 · Launch</span></div>
+    <p style="margin:0">The <b>Hackian</b> agent runs on-demand and continuously — a multi-agent system (LLM "brain" + tools) under <b>three layers of safety guardrails</b>; it plans, probes and adapts autonomously.</p>
+  </div>
+  <div class="step">
+    <h4>Review findings with proof</h4>
+    <div class="who"><span class="stage-tag">Stage 5–6 · Findings</span> &nbsp;·&nbsp; <span class="b ver">Verified</span></div>
+    <p style="margin:0"><b>Every finding includes proof-of-exploitation and prioritized mitigation guidance</b> — not triage-the-maybe noise. A human elite-hacker layer backs the agent.</p>
+  </div>
+  <div class="step">
+    <h4>Fix &amp; stay continuously covered</h4>
+    <div class="who"><span class="stage-tag">Stage 7 · Remediate</span></div>
+    <p style="margin:0">Apply the prioritized guidance; continuous mode keeps re-checking the surface over time.</p>
+  </div>
+</div>
+
+<h4>Why it matters for Burp DAST</h4>
+<p>For a Burp DAST designer, Ethiack is the proof that a <b>frictionless self-serve onboarding</b> (work email → trial → first scan, no sales) is viable in this category — the opposite end of the access spectrum from Terra's demo-gate. Its own 2026 blog is also unusually candid that "autonomy" is incremental and bounded (cost, hallucination), which is a useful honesty signal for how to message agentic capability.</p>
+<p class="src">Sources: <a href="https://ethiack.com/news/product/introducing-hackian">Introducing Hackian</a> · <a href="https://portal.ethiack.com/signup">portal.ethiack.com/signup</a> · <a href="https://ethiack.com/news/blog/ai-hacking-2026"> ai-hacking-2026 blog</a>.</p>
+
+<!-- ============================ 8 AIKIDO ============================ -->
+<h2 class="sec" id="aikido"><span class="n">8</span>Aikido — Attack AI Pentest</h2>
+<div class="vhead"><h3>Aikido</h3><span class="tag">Promoted into the agentic tier 30 Jun — the only player here with a setup wizard verified by an independent third party.</span></div>
+<dl class="kv">
+  <dt>Category</dt><dd>Unified AppSec platform whose <b>Attack AI Pentest</b> module is a genuine agentic web pentester — black-box capable but <b>source-aware</b> (pairs your GitHub repo / branch for greybox–whitebox depth)</dd>
+  <dt>Agency model</dt><dd><span class="b ver">Verified (3rd-party test)</span> Fully autonomous after configuration — "completed without further interaction." No in-run steering (no HITL). Authenticates via a <b>prompt-driven login script</b> (you write the agent a numbered natural-language sequence, e.g. to clear a Google SSO challenge).</dd>
+  <dt>Access &amp; pricing</dt><dd><span class="b ver">Verified (3rd-party test)</span> <b>Genuinely self-serve</b>, credit-based: <b>Standard Pentest $4,000</b> (4,000 credits; comprehensive, SOC2/ISO27001 PDF), <b>Rightsized $960–$30,000+</b> (sized to the app via a credit estimator), <b>Continuous</b> custom. <b>Same-day results</b>; <b>90-day unlimited free re-tests</b>; "no High/Critical finding = don't pay" guarantee.</dd>
+  <dt>Standout capability</dt><dd>First-class <b>multi-user / cross-tenant testing</b> in the setup wizard (add ≥1 user per role for priv-esc; ≥2 tenants for cross-tenant data-leak / IDOR) — the capability XBOW lacks. Plus social/SSO login support.</dd>
+  <dt>Findings</dt><dd>PDF report with reproduction steps. In the independent test it scored <b>89–100% true-positive</b> across two apps with <b>0–11% false positives</b>, but <b>systematically overstated severity</b> (see §10).</dd>
+</dl>
+
+<div class="note tip"><b>How we know this much:</b> unlike the gated RunSybil/Terra journeys, Aikido's entire 7-step setup wizard was captured screen-by-screen in Doyensec's independent test — so the steps below are <b>concrete and third-party-verified</b>, not inferred. Caveat: that study was Aikido-sponsored (§13), so weight the capability facts (what the wizard does) above the comparative verdict.</div>
+
+<h4>What the customer does — setup &amp; scan journey</h4>
+<p class="muted" style="font-size:13.5px;margin-top:2px">A self-serve, credit-priced flow that runs entirely in-product — Doyensec set up and launched both scans in under 20 minutes.</p>
+<div class="journey">
+  <div class="step">
+    <h4>Buy credits &amp; create a Pentest project</h4>
+    <div class="who"><span class="stage-tag">Stage 1 · Access</span> &nbsp;·&nbsp; <span class="b ver">Verified (3rd-party)</span></div>
+    <p style="margin:0">No sales call: you self-serve credits (4,000 = the $4k Standard tier) and create a Pentest project inside the Aikido console. Pair GitHub and select the specific scanner branch so the agent has source context.</p>
+  </div>
+  <div class="step">
+    <h4>Define the test scope</h4>
+    <div class="who"><span class="stage-tag">Stage 2 · Scope</span></div>
+    <p style="margin:0 0 12px">Add the entrypoint URL(s); choose <b>"test entire application"</b> vs "test specific parts only"; add custom headers if needed. A 7-step progress rail (Scope → Test Users → Allowed Domains → Code &amp; Documentation → Safety Check → Pricing → Summary) guides the whole wizard.</p>
+    <figure style="margin:0">
+      <div class="imgwrap"><img src="assets/aikido-scope.png" alt="Aikido Define Test Scope wizard step"></div>
+      <figcaption><b>Real product screenshot:</b> the "Define Test Scope" step — entrypoint URL, entire-app vs specific-parts toggle, and the 7-step progress rail on the right. <span class="muted">Source: Doyensec 2026 test (physical page 9).</span></figcaption>
+    </figure>
+  </div>
+  <div class="step">
+    <h4>Add test users — incl. roles &amp; tenants, with prompt-driven auth</h4>
+    <div class="who"><span class="stage-tag">Stage 3 · Auth</span> &nbsp;·&nbsp; <span class="b ver">Verified (3rd-party)</span></div>
+    <p style="margin:0 0 12px">The differentiating step: add <b>at least one user per permission level</b> (admin / manager / viewer) so the agent can test privilege escalation, and <b>at least two tenants</b> so it can test cross-tenant data leaks. Authentication is <b>prompt-driven</b> — you literally write the agent a numbered login script (the Doyensec test wrote one to drive Google SSO and clear its login challenge). Notably, this is where complex SSO that defeats most scanners gets handled.</p>
+    <figure style="margin:0">
+      <div class="imgwrap"><img src="assets/aikido-test-users.png" alt="Aikido Add Test Users wizard step"></div>
+      <figcaption><b>The multi-user step XBOW lacks:</b> "Test every role" (admin/manager/viewer → priv-esc) and "Test isolation" (≥2 tenants → cross-tenant leaks), with per-user login status. <span class="muted">Source: Doyensec 2026 test (physical page 10).</span></figcaption>
+    </figure>
+  </div>
+  <div class="step">
+    <h4>Review discovered domains &amp; connect repositories</h4>
+    <div class="who"><span class="stage-tag">Stage 2/4 · Scope + context</span></div>
+    <p style="margin:0 0 12px">Aikido auto-discovers the domains your app interacts with and asks you to mark each <b>Attackable</b> (actively exploited) vs <b>Accessible</b> (connected for functionality, never attacked) — everything else is blocked. You confirm the connected repo/branch and can add data uploads + free-text notes for extra context.</p>
+    <figure style="margin:0">
+      <div class="imgwrap"><img src="assets/aikido-domains.png" alt="Aikido Review Discovered Domains wizard step"></div>
+      <figcaption><b>Scope fencing as a step:</b> per-domain <b>Attackable</b> vs <b>Accessible</b> toggles — "we actively exploit these; we connect here to ensure app functionality but won't run attacks; requests to any other domains are blocked." <span class="muted">Source: Doyensec 2026 test (physical page 11).</span></figcaption>
+    </figure>
+  </div>
+  <div class="step">
+    <h4>Configure safety settings — the guardrails step, baked into setup</h4>
+    <div class="who"><span class="stage-tag">Stage 4 · Guardrails</span> &nbsp;·&nbsp; <span class="b ver">Verified (3rd-party)</span></div>
+    <p style="margin:0 0 12px"><b>This is the pattern to steal.</b> A dedicated "Configure Safety Settings" step sets <b>maximum requests/second</b>, an <b>allowed scanning window</b> (anytime / business hours / off-hours / weekend), and timezone — "to ensure testing doesn't disrupt your services." Guardrails are a first-class configuration stage, not an afterthought.</p>
+    <figure style="margin:0">
+      <div class="imgwrap"><img src="assets/aikido-safety.png" alt="Aikido Configure Safety Settings wizard step"></div>
+      <figcaption><b>The guardrails step — your "Guardrails for agentic testing" card, shipped:</b> max requests/second slider + allowed scanning-time window + timezone. The exact control XBOW left near-default before it damaged its target (§4). <span class="muted">Source: Doyensec 2026 test (physical page 11).</span></figcaption>
+    </figure>
+  </div>
+  <div class="step">
+    <h4>Pick depth, verify the domain &amp; launch</h4>
+    <div class="who"><span class="stage-tag">Stage 4 · Launch</span></div>
+    <p style="margin:0 0 12px">Choose <b>Standard</b> (4,000 credits) vs <b>Rightsized</b> (estimator-sized); verify domain ownership; then a "Confirm AI Pentest" modal makes you acknowledge that "a pentest can be disruptive and may expose sensitive data" before running. The scan then <b>completes autonomously</b> with the report delivered <b>the same day</b>.</p>
+    <div class="figrow">
+      <figure style="margin:0"><div class="imgwrap"><img src="assets/aikido-depth.png" alt="Aikido Select Pentest Depth wizard step"></div><figcaption><b>Pentest depth = pricing:</b> Standard Test (4,000 credits, "comprehensive… SOC2/ISO27001 PDF") vs Rightsized (estimator-sized). <span class="muted">Doyensec 2026, phys p.12.</span></figcaption></figure>
+      <figure style="margin:0"><div class="imgwrap"><img src="assets/aikido-confirm.png" alt="Aikido Confirm AI Pentest modal"></div><figcaption><b>The safety acknowledgement gate:</b> an explicit "this may run destructive tests… not a production environment" checkbox before Run Assessment. <span class="muted">Doyensec 2026, phys p.12.</span></figcaption></figure>
+    </div>
+  </div>
+  <div class="step">
+    <h4>Review findings &amp; re-test free for 90 days</h4>
+    <div class="who"><span class="stage-tag">Stage 5–7 · Findings + remediate</span></div>
+    <p style="margin:0">Findings arrive as a comprehensive PDF (SOC2/ISO27001-ready) with reproduction steps and severity. Fixes can be re-validated with <b>unlimited free re-tests within 90 days</b>.</p>
+  </div>
+</div>
+
+<h4>Why it matters for Burp DAST</h4>
+<p>Aikido is the cleanest reference for three things your prototypes are already chasing. First, <b>guardrails as a first-class setup stage</b> — its "Configure Safety Settings" step (rate limit + scan window) is almost exactly your "Guardrails for agentic testing" card, and the XBOW field disaster (§4) proves why it's needed. Second, <b>multi-user / cross-tenant testing surfaced in the wizard</b> (roles + tenants for priv-esc and IDOR) — directly relevant to your collision/auth-testing work and something the bigger-name XBOW can't yet do. Third, <b>prompt-driven authentication</b> — writing the agent a natural-language login script is exactly the "prompt mode" toggle in your set-up-a-target flow, now validated as a real product pattern for hard SSO. The honest counter-weight: it ships a <b>static PDF</b>, not a live trace, and (per §10) its severities are unreliable — so the trace-as-hero and demote-severity opportunities remain open.</p>
+<p class="src">Source: Doyensec, <a href="https://doyensec.com/research.html">"Comparing AI Application Security Testing Platforms: Aikido vs. XBOW"</a> (2026) — in-product screenshots + independent finding validation. <span class="muted">Study was financially sponsored by Aikido (disclosed); treat capability facts as high-confidence and the comparative verdict as sponsor-influenced.</span></p>
+
+<!-- ============================ 9 ZEROPATH ============================ -->
+<h2 class="sec" id="zeropath"><span class="n">9</span>ZeroPath — the instructive contrast case</h2>
+<div class="vhead"><h3>ZeroPath</h3><span class="tag">Genuinely AI-native — but at the code level, not black-box web pentest.</span></div>
+<figure class="tall"><div class="imgwrap"><img src="assets/zeropath-home-full.png" alt="ZeroPath homepage"></div><figcaption><b>"AI-Native SAST &amp; AppSec Platform."</b> Business-logic &amp; broken-auth detection, SCA with reachability, secrets/IaC, one-click AI patches + PR reviews. It <em>lists</em> DAST ("dynamic testing with exploit proof and fix verification") as one secondary feature, but the product operates on source and pull requests. <span class="muted">zeropath.com</span></figcaption></figure>
+<p><span class="b ver">Verified 3-0</span> ZeroPath is included precisely because it shows the boundary: it is genuinely agentic and AI-native, but it is a <b>code-security</b> tool, not a black-box attacker like XBOW/Sybil/Terra/Ethiack. If your brief is "agentic <em>web vulnerability scanning</em>", ZeroPath (and OpenAI's Aardvark) answer a related-but-different question — they reason over code, not over a running app from the outside. Worth tracking, wrong bucket for direct comparison.</p>
+
+<!-- ============================ 10 EVIDENCE ============================ -->
+<h2 class="sec" id="evidence"><span class="n">10</span>Hard evidence: the first independent head-to-head</h2>
+<p class="lead">Everything above this point is vendor self-description. This section is different: it's the one set of <b>non-vendor, benchmark-style numbers</b> in the report — Doyensec's 2026 study that ran <b>Aikido vs XBOW</b> against two real OSS apps (Fider, a Go/Gin feedback portal; Photoview, a TS/NextJS gallery) on AWS, then <b>manually validated every reported finding</b> as true/false positive and re-scored each severity.</p>
+
+<div class="note warn"><b>Read this with the sponsorship caveat.</b> The study was financially sponsored by <b>Aikido</b> (disclosed; Doyensec says it had editorial independence but Aikido "had input into the constraints"). The comparative <em>verdict</em> leans Aikido's way — so treat the <b>observed facts</b> (false-positive counts, severity-accuracy, run behaviour, capability gaps) as the high-value, lower-bias signal, and the "who won" framing as sponsor-influenced.</div>
+
+<h3>The two findings that should reshape our UI thesis</h3>
+<div class="grid g2">
+  <div class="card" style="border-left:3px solid var(--accent)"><h4 style="color:var(--accent)">① False positives are already low — so "we cut FPs" is not the wedge</h4><p style="font-size:14px;margin:0">Both tools were accurate on <em>existence</em>: true-positive rates ran <b>89–100%</b>, false positives just <b>0–11%</b>. The old DAST "drowning in noise" pain is largely solved by these agents. Selling "fewer false positives" won't differentiate.</p></div>
+  <div class="card" style="border-left:3px solid var(--red)"><h4 style="color:var(--red)">② Severity is unreliable — and both tools <em>over</em>-state it</h4><p style="font-size:14px;margin:0"><b>24–43%</b> of severities were judged wrong on manual review, and the error is directional: <b>both platforms inflate severity</b>. This is hard evidence for our existing call to <b>demote the severity badge and promote validated, context-aware exploitability</b>. The agent finds real bugs; it can't reliably tell you how much they matter.</p></div>
+</div>
+
+<h4>The numbers (Doyensec manual validation)</h4>
+<div class="tbl-scroll">
+<table>
+<thead><tr><th>Platform · target</th><th>Reported</th><th>True positive</th><th>False positive</th><th>Correct severity</th><th>Severity error direction</th></tr></thead>
+<tbody>
+<tr><td><b>Aikido</b> · Fider</td><td>19</td><td><span class="b yes">89% (17/19)</span></td><td>11% (2/19)</td><td>76% (13/17)</td><td>Overstated 3, understated 1</td></tr>
+<tr><td><b>Aikido</b> · Photoview</td><td>32</td><td><span class="b yes">100% (32/32)</span></td><td>0%</td><td>66% (21/32)</td><td>Overstated all 11 wrong</td></tr>
+<tr><td><b>XBOW</b> · Fider</td><td>25</td><td><span class="b yes">96% (24/25)</span></td><td>4% (1/25)</td><td>71% (17/24)</td><td>Overstated (mostly med→low)</td></tr>
+<tr><td><b>XBOW</b> · Photoview</td><td>7</td><td><span class="b yes">100% (7/7)</span></td><td>0%</td><td>57% (4/7)</td><td>Over 2, under 1</td></tr>
+</tbody>
+</table>
+</div>
+<p class="muted" style="font-size:13px">Across both apps: Aikido reported <b>49 true positives</b> to XBOW's <b>31</b> (more breadth, esp. Information Exposure); XBOW carried a marginally lower false-positive <em>ratio</em> (3% vs 4%). Doyensec also note one root cause can spawn several "findings," inflating raw counts — de-duplicating closes much of the gap. Both were judged a better ROI than traditional SAST/DAST.</p>
+
+<h3>The guardrail evidence — autonomy bites back</h3>
+<p>The study is also the clearest real-world argument yet for <b>configurable guardrails</b>, which both products now ship (Aikido's "Safety Settings" rate-limit + scan-window step; XBOW's "Safety rules / Canaries"). Left near-default, <b>XBOW's run damaged the live target</b>: it deleted the test account, altered the auth mechanism, exhausted the EC2 instance twice, and triggered ~4,800 token emails (§4). Aikido's run, with its safety step in the setup wizard, was smooth. For Burp, this converts "Guardrails for agentic testing" from a nice-to-have into a <b>credibility requirement</b> — and Burp's heritage of tester control is the right-to-win.</p>
+
+<div class="note tip"><b>Net effect on our direction:</b> the three theses this research already backed — <em>validated-only findings</em>, <em>trace/proof as hero</em>, and <em>demote severity</em> — now have their first hard data. The new emphasis: (1) compete on <b>severity/impact judgement and proof quality</b>, not FP reduction; (2) treat <b>guardrails</b> as load-bearing; (3) note the current state-of-the-art deliverable is still a <b>static PDF with sometimes-unusable repro steps</b> — a live, reliably-reproducible trace is a genuine open opportunity.</div>
+
+<!-- ============================ 11 GRID ============================ -->
+<h2 class="sec" id="grid"><span class="n">11</span>Cross-vendor journey grid</h2>
+<p>The gold-standard view: all five agentic leaders laid against the seven-stage spine. This is the table to screenshot for a deck.</p>
+<div class="tbl-scroll">
+<table>
+<thead><tr><th>Stage</th><th>XBOW</th><th>RunSybil</th><th>Terra</th><th>Ethiack</th><th>Aikido</th></tr></thead>
+<tbody>
+<tr><td><b>1 · Access</b></td><td>Per-test priced ($4k/$8k) but <b>sales-gated</b> kickoff (DocuSign + emails)</td><td>Book a demo / early access</td><td>Book a demo (sales-led)</td><td><b>Self-serve 30-day free trial</b>, instant signup</td><td><b>Self-serve</b>, credit-based ($4k Standard); &lt;20-min setup</td></tr>
+<tr><td><b>2 · Scope</b></td><td>Target URL + boundaries + context; web apps &amp; APIs</td><td>Maps whole stack; external-perimeter focus</td><td>Adapts to app workflows &amp; data handling (business context)</td><td>External attack surface; web apps</td><td>Entrypoint URL + entire-app/parts toggle; auto-discovers &amp; gates domains (attackable vs accessible)</td></tr>
+<tr><td><b>3 · Auth</b></td><td>Magic-link / credentialed; multi concurrent sessions; <b>no social login, single user</b></td><td>Authenticated testing (details gated)</td><td>Adapts to authentication flows</td><td>Configured in portal (details gated)</td><td><b>Prompt-driven login script</b>; <b>multi-role + multi-tenant</b> (priv-esc + IDOR); social/SSO</td></tr>
+<tr><td><b>4 · Launch</b></td><td>Manual or API; pick depth/speed; anytime</td><td>Continuous, on every deployment</td><td>Continuous production testing</td><td>On-demand + continuous</td><td>Pick depth (Standard/Rightsized) + <b>safety-settings step</b> (rate limit + window); confirm modal</td></tr>
+<tr><td><b>5 · In-run reasoning</b></td><td>Assessment states + monitor; <b>observe, don't steer</b></td><td><b>Live "agent activity network"</b> (Discovery/Attack agents)</td><td><b>Human-in-the-Loop</b> approval at high-risk steps; Terra Portal</td><td>Agentic run; proof captured per finding</td><td>Runs autonomously to completion; <b>no in-run view/steering</b></td></tr>
+<tr><td><b>6 · Findings + proof</b></td><td>Validated only; <b>View/Download Trace</b>; case file</td><td>Severity + CVSS; <b>replay</b> the exploit</td><td>"Validated findings only", reproducible high-signal</td><td>Every finding = proof-of-exploitation</td><td>Static <b>PDF report</b> (SOC2/ISO27001) + repro steps; severities often overstated</td></tr>
+<tr><td><b>7 · Remediate / re-test</b></td><td>Start retest → mark Fixed/Intended; 40+ compliance frameworks</td><td><b>Open ticket</b> + <b>attack replay</b> → clean report in hours</td><td>Validated re-test; researcher collaboration via Portal</td><td>Prioritized mitigation guidance per finding</td><td><b>Unlimited free re-tests for 90 days</b>; "no High/Critical = don't pay"</td></tr>
+<tr><td><b>Control axis</b></td><td><span class="b pos">Autonomous + observable</span></td><td><span class="b pos">Autonomous + observable</span></td><td><span class="b part">Human-in-the-loop / intervene</span></td><td><span class="b pos">Autonomous + human layer</span></td><td><span class="b pos">Autonomous; guardrails at setup</span></td></tr>
+<tr><td><b>Evidence level</b></td><td><span class="b ver">Verified + real docs + field test</span></td><td><span class="b ver">Verified (marketing UI)</span></td><td><span class="b ver">Verified (positioning)</span></td><td><span class="b ver">Verified + live signup</span></td><td><span class="b ver">Verified (3rd-party field test)</span></td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- ============================ 10 PATTERNS ============================ -->
+<h2 class="sec" id="patterns"><span class="n">12</span>UX patterns &amp; takeaways for Burp DAST</h2>
+<p class="lead">What to steal, what to decide, and where Burp can differentiate.</p>
+
+<h3>Patterns worth adopting</h3>
+<div class="grid g2">
+  <div class="card"><h4>① The trace / decision-log is the hero, not a tab</h4><p style="font-size:14px;margin:0">Every leader makes the agent's reasoning the headline artefact. Burp's existing instinct here (your "LLM canvas" / investigation-map and reasoning feed in the test-results prototypes) is directly on-trend — push it to the front of the findings experience, with a downloadable trace per finding.</p></div>
+  <div class="card"><h4>② Validated-only findings</h4><p style="font-size:14px;margin:0">"Surfaced only once exploitability is confirmed through non-destructive challenges." A visible <em>confidence/validation</em> state on every issue (you already model scanner-status vs override) is table stakes — lean into "we proved it" framing.</p></div>
+  <div class="card"><h4>③ Named multi-agent activity for live progress</h4><p style="font-size:14px;margin:0">RunSybil's Discovery/Attack "agent activity network" is far more compelling than a progress bar. Your phase timeline + graph canvas can show <em>which agent is doing what</em> and why, in real time.</p></div>
+  <div class="card"><h4>④ Replay / instant re-test loop</h4><p style="font-size:14px;margin:0">A first-class "re-run this exact exploit to verify the fix" button (you've prototyped Re-test + the failure-reason flow) maps exactly to XBOW "Start a retest" / Sybil "attack replay". Make it the primary remediation CTA.</p></div>
+</div>
+
+<h3>The decision you can't dodge: the control axis</h3>
+<p>The market has two coherent answers and you should pick deliberately — your own prototypes already encode both ("the test: I'll drive" vs "automated… but I can intervene"):</p>
+<div class="grid g2">
+  <div class="card" style="border-left:3px solid var(--blue)"><h4>Autonomous + observable (XBOW, Sybil, Ethiack, Aikido)</h4><p style="font-size:14px;margin:0">Agent runs to completion; the human's control is the reviewable log + re-test. Lower friction, higher "magic", but the user must trust before they can verify. The Doyensec field test (§10) shows the catch: at this end of the axis, <b>setup-time guardrails (rate limit, scan window, scope fencing) are the only safety net</b> — Aikido ships them as a wizard step; XBOW left near-default and damaged the target.</p></div>
+  <div class="card" style="border-left:3px solid var(--amber)"><h4>Human-in-the-loop (Terra)</h4><p style="font-size:14px;margin:0">Agent pauses for approval at high-risk/exploitation steps; a portal lets experts steer. More control, more trust for production targets, more friction. Terra is betting enterprises will pay for controllability.</p></div>
+</div>
+<div class="note tip"><b>Burp's opening:</b> nobody has nailed <em>both</em> in one product with a clean mode switch. A DAST that defaults to autonomous-with-observability but offers a "guardrails / approve high-risk actions" mode (your "Guardrails for agentic testing" card) would sit precisely in the gap between XBOW and Terra — and Burp's heritage of <em>giving the tester control</em> is a credible right-to-win there.</p></div>
+
+<h3>Where the research is thin (so don't over-claim)</h3>
+<ul class="tight">
+  <li>The early journey (signup → scope → auth) is now well-documented for <b>XBOW and Aikido</b> (the latter via the independent test); RunSybil/Terra/Ethiack's exact scoping &amp; auth flows are still gated.</li>
+  <li>Whether XBOW/RunSybil allow <em>any</em> in-run steering is unconfirmed (only Terra's HITL is verified; Aikido confirmed to have none).</li>
+  <li>Concrete ticketing integrations (Jira/GitHub specifics, auto vs manual re-test) are described at a high level only.</li>
+  <li>The benchmark numbers (§10) are a <b>single sponsored study on two apps</b> — directionally strong, not statistically general.</li>
+</ul>
+
+<!-- ============================ 11 CAVEATS ============================ -->
+<h2 class="sec" id="caveats"><span class="n">13</span>Caveats &amp; open questions</h2>
+<div class="note warn"><b>Evidence caveats.</b> Vendor self-description dominates. The <b>one</b> independent benchmark-style input (§10, Doyensec) is <b>Aikido-sponsored</b> — disclosed, with claimed editorial independence, but Aikido had input into the constraints, so its comparative verdict should be read as sponsor-influenced even though the raw observed facts are valuable. Two earlier claims were actively <b>refuted</b> in verification and excluded: (a) that XBOW uses independent validators to eliminate hallucination false-positives, and (b) a specific RunSybil "low-sev chained to full account access" exploit anecdote — the general chaining capability is verified, that specific story is not. The remaining second tier (NodeZero, Pentera, Akto, Mindgard, Bright, Escape, StackHawk) is positioning-level only. <b>Aikido has been promoted out of that tier</b> to a verified agentic player on the strength of the field test.</div>
+<h4>Open questions worth a follow-up pass</h4>
+<ol>
+  <li>What do the <b>scoping &amp; authentication flows</b> actually look like for RunSybil and Terra in-product? (Best answered by booking demos / requesting trials.)</li>
+  <li>Do the "autonomous" players offer <b>any in-run intervention</b>, or is control purely post-hoc?</li>
+  <li>For the second tier, which are genuinely agentic vs marketing — a dedicated verification pass per vendor.</li>
+  <li>Concrete remediation integrations: which trackers, and is re-test verification automatic or manual?</li>
+</ol>
+<div class="note tip"><b>I can take any of these further</b> — e.g. request the Ethiack free trial and capture the real in-app onboarding/scan journey end-to-end, sign up for XBOW/StackHawk/Escape self-serve tiers, pull demo-video stills frame-by-frame, or run a dedicated verification pass on the second tier. Just say which.</div>
+
+<!-- ============================ 12 SOURCES ============================ -->
+<h2 class="sec" id="sources"><span class="n">14</span>Sources &amp; screenshot index</h2>
+<div class="note key" style="margin-top:0"><b>Added 30 Jun 2026 — the independent head-to-head:</b> Doyensec (Luca Carettoni &amp; Anthony Trummer), <i>"Comparing AI Application Security Testing Platforms: Aikido vs. XBOW"</i> (2026). Side-by-side test of Aikido's Attack AI Pentest and XBOW's Lightspeed against Fider &amp; Photoview, with manual true/false-positive validation and severity re-scoring. Source of all §10 numbers, the §4 XBOW field-behaviour data, and the §8 Aikido setup journey. <b>Sponsored by Aikido (disclosed).</b> <span class="muted">PDF held locally; published version at doyensec.com/research.</span></div>
+<h4>Primary sources (verified)</h4>
+<ul class="tight" style="columns:2;column-gap:40px">
+  <li><a href="https://xbow.com/platform">xbow.com/platform</a></li>
+  <li><a href="https://xbow.com/pricing">xbow.com/pricing</a></li>
+  <li><a href="https://xbow.com/pentest">xbow.com/pentest</a></li>
+  <li><a href="https://docs.xbow.com/console/reference/target-types/">docs.xbow.com (console)</a></li>
+  <li><a href="https://www.runsybil.com/">runsybil.com</a></li>
+  <li><a href="https://www.runsybil.com/post/runsybil-raises-40m-to-build-the-ai-native-platform-for-offensive-security">RunSybil $40M raise</a></li>
+  <li><a href="https://www.terra.security/terra-platform">terra.security/terra-platform</a></li>
+  <li><a href="https://ethiack.com/news/product/introducing-hackian">Ethiack — Introducing Hackian</a></li>
+  <li><a href="https://portal.ethiack.com/signup">portal.ethiack.com/signup</a></li>
+  <li><a href="https://zeropath.com/pricing">zeropath.com</a></li>
+  <li><a href="https://openai.com/index/introducing-aardvark/">OpenAI — Aardvark</a></li>
+  <li><a href="https://www.businesswire.com/news/home/20251112470912/en/Announcing-XBOW-Pentest-On-Demand-for-Security-at-Machine-Speed">BusinessWire — XBOW Pentest On-Demand</a></li>
+  <li><a href="https://doyensec.com/research.html">Doyensec — Aikido vs XBOW (2026, sponsored)</a></li>
+  <li><a href="https://www.aikido.dev/">aikido.dev — Attack AI Pentest</a></li>
+</ul>
+<h4>Screenshots in this report (in <code>./assets/</code>)</h4>
+<p class="muted" style="font-size:13px">xbow-finding-trace · xbow-docs-auth · xbow-docs-run · xbow-docs-monitor · xbow-docs-results · xbow-pentest-full · xbow-platform-full · xbow-home-full · xbow-hero · runsybil-home-full · terra-hero · terra-home-full · ethiack-hero · ethiack-home-full · zeropath-home-full · <b>aikido-scope · aikido-test-users · aikido-domains · aikido-safety · aikido-depth · aikido-confirm</b> (Doyensec 2026, cropped from PDF) · nodezero-platform-full · pentera-home-full · aikido-home-full · akto-home-full · mindgard-home-full · bright-home-full · escape-home-full · stackhawk-home-full</p>
+<p class="muted" style="font-size:12.5px;margin-top:30px">Compiled 26 Jun 2026 · deep-research fan-out (103 agents, 3-vote adversarial verification) + live browser capture. <b>Updated 30 Jun 2026:</b> folded in Doyensec's independent Aikido-vs-XBOW head-to-head — added Aikido as deep-dive §8, reclassified XBOW's access model, added the §10 hard-evidence section, and cited the (Aikido-sponsored) study. Confidence labels are intrinsic to each claim; with the §10 exception, vendor-positioning items are not independently benchmarked. This document is self-contained — keep it alongside the <code>assets/</code> folder.</p>
+
+</main>
+</div>
+</body>
+</html>

@@ -1,0 +1,98 @@
+{
+  "summary": "The genuinely agentic web-app pentest market splits cleanly from \"AI-washed\" DAST: five top-tier players \u2014 XBOW, RunSybil (Sybil), Terra Security, Ethiack (Hackian), and (as a contrast case) ZeroPath \u2014 were verified, with XBOW, RunSybil, Terra and Ethiack all confirmed as autonomous AI agents that reason like attackers, chain vulnerabilities, and validate exploitability, while ZeroPath is positioned as AI-native code security (SAST/SCA), not a black-box pentest agent. The defining UX pattern across the leaders is making the agent's reasoning legible and proof-backed: RunSybil shows a live \"agent activity network\" with named Discovery/Attack agents validating findings in real time; XBOW presents every finding as a reproducible \"case file\" exposing the chained attack path, working exploit, and full decision log rather than a bare severity score, with all agent actions logged and reviewable. Trust/control models diverge meaningfully \u2014 Terra explicitly prioritizes controllability over speed with a Human-in-the-Loop guardrail on high-risk exploitation (and a \"Terra Portal\" collaboration surface for researchers to work alongside agents), whereas XBOW and RunSybil lean fully autonomous-with-observability. Access/pricing models also diverge: Ethiack is self-serve (30-day free trial, instant signup, no waitlist), XBOW is per-test consumption ($4k/$8k per test under \"Lightspeed\" plus custom Enterprise), and Terra is sales-led (book a demo, no published pricing). For a Burp DAST agentic designer, the reusable patterns are: validated/exploitability-confirmed findings to suppress noise, full reasoning/decision logs and replay/re-test buttons as the trust mechanism, named multi-agent activity visualisation for in-run progress, and an explicit autonomous-vs-intervene control axis.",
+  "findings": [
+    {
+      "claim": "XBOW is a genuinely agentic autonomous pentest product whose core UX is the reproducible 'case file': every finding exposes the chained attack path, a working exploit, and a full log of agent decisions (the whole kill chain) rather than a severity score, and every agent action is logged and reviewable for full visibility.",
+      "confidence": "high",
+      "vote": "3-0 (merged from claims 5 and 6)",
+      "evidence": "XBOW's platform page states verbatim: 'Every finding is a complete, reproducible trace: the chained attack path, the working exploit, and a full log of every decision and tactic the agents took. Nothing is hidden behind a severity score. You see the whole kill chain.' It separately states 'Every action the agents take is logged and reviewable, so your team keeps full visibility into how each finding was reached.' Independently corroborated by search snippets describing each finding as 'a complete case file ... and developer-ready remediation.' This is the key trust/reasoning-visualisation pattern for a Burp DAST designer. Caveat: vendor marketing copy describing presentation format, not an independent audit of exploit validity.",
+      "sources": [
+        "https://xbow.com/platform"
+      ]
+    },
+    {
+      "claim": "XBOW sells autonomous pentests on a per-test consumption basis under 'XBOW Lightspeed' ($4,000/test Plus for lightweight apps; $8,000/test Premium for complex apps) plus a custom-quote 'XBOW Enterprise' tier for continuous coverage; the product surfaces validation and remediation handoff (instant re-testing with automated verification, detailed PoC exploits, actionable remediation guidance), with Enterprise adding real-time streaming of findings and a vulnerability coverage map.",
+      "confidence": "high",
+      "vote": "3-0 (merged from claims 7 and 8)",
+      "evidence": "xbow.com/pricing confirms three tiers verbatim: Lightspeed Plus '$4,000/per test' ('depth of a 2 week manual penetration test'), Premium '$8,000/per test' ('depth of a 4 week manual penetration test'), and Enterprise 'Custom/request a quote'. Base/Lightspeed lists 'Instant re-testing with automated verification', 'Detailed proof-of-concept exploits', 'Actionable remediation guidance'; Enterprise exclusively adds 'Realtime streaming of findings' and 'Vulnerability coverage map'. Corroborated by AWS/Azure Marketplace listings ('XBOW Lightspeed - On-Demand Autonomous Pentest') and a BusinessWire Nov 2025 launch announcement. Note: the refuted claim that XBOW access is purely sales-led failed (0-3) \u2014 the consumption/per-test model is the verified access mechanism.",
+      "sources": [
+        "https://xbow.com/pricing"
+      ]
+    },
+    {
+      "claim": "RunSybil's Sybil is genuinely agentic black-box AI pentesting: it 'reasons like an attacker', works without source-code access, dynamically explores targets (discovering forgotten endpoints, probing authentication boundaries), and chains vulnerabilities across the stack to surface real exploitable paths, with agents that learn and improve with experience.",
+      "confidence": "high",
+      "vote": "3-0 (merged from claims 2, 16, 17)",
+      "evidence": "runsybil.com states 'Instead of scanning for signatures, it reasons like an attacker. Sybil chains vulnerabilities across your stack to surface real, exploitable paths.' The $40M-raise post adds 'the first black-box approach whose AI agents conduct comprehensive security testing without requiring source code access' and 'discovering forgotten endpoints, exploring authentication boundaries, and chaining vulnerabilities together using only external interfaces ... AI agents that learn about the target, getting better and more efficient with experience.' Independently corroborated by Fortune and SiliconANGLE (2026-03-18), which confirm the no-source-code black-box, attacker-style, vulnerability-chaining methodology. Founded by OpenAI's first security hire; raised $40M March 2026.",
+      "sources": [
+        "https://www.runsybil.com/",
+        "https://www.runsybil.com/post/runsybil-raises-40m-to-build-the-ai-native-platform-for-offensive-security"
+      ]
+    },
+    {
+      "claim": "RunSybil's in-run UX surfaces agent reasoning via a live 'agent activity network' showing distinct named agents (Discovery Agent, Attack Agent) working in real time (e.g. validating an XSS finding); findings are presented with severity and CVSS score and actionable controls \u2014 buttons to open a ticket (remediation handoff) and to replay the finding (proof-of-exploit/validation).",
+      "confidence": "high",
+      "vote": "3-0 / 2-1 (merged from claims 3 and 4)",
+      "evidence": "runsybil.com image captions/alt-text read verbatim: 'Interface showing agent activity in RunSybil: Discovery Agent, Attack Agent validating XSS finding in real time' and 'Cybersecurity dashboard showing engagement status, agent activity network, and vulnerability findings with risk levels.' Findings shown 'Medium severity, CVSS score 5.2' and 'critical severity and 9.1 CVSS score' with 'buttons to open ticket or replay'. Highly relevant to Burp DAST: named multi-agent activity visualisation for progress + replay-for-validation + ticket-for-handoff. Caveat: derived from marketing screenshot captions, not a hands-on demo; the findings-controls sub-claim was 2-1 (one verifier flagged it describes screenshot captions rather than guaranteed literal button labels).",
+      "sources": [
+        "https://www.runsybil.com/"
+      ]
+    },
+    {
+      "claim": "Terra Security positions its AI pentest agents as autonomous but deliberately constrained \u2014 prioritizing controllability over brute speed/scale, with explicit Human-in-the-Loop guardrails on high-risk exploitation; agents adapt to each app's specific workflows, authentication flows, and data handling (business-context awareness), and the product emphasizes validated, exploitability-confirmed, reproducible high-signal findings rather than raw alerts.",
+      "confidence": "high",
+      "vote": "3-0 (merged from claims 12, 13, 14)",
+      "evidence": "terra.security/terra-platform states verbatim: 'Autonomous, with guardrails\u2014Terra agents are built to prioritize controllability rather than brute speed and scale' and 'Fast, accurate, and safe\u2014Terra agents are built around verified execution and a Human-in-the-Loop'; 'Terra's agent swarm adapts to app workflows, authentication flows, and data handling to uncover critical vulnerabilities'; 'Validated findings only\u2014Reduce noise and validate exploitability ... reproducible, high-signal findings teams can trust and act on (rather than just more findings to triage).' Corroborated by Help Net Security (2026-03-10, 'human-governed AI to live production pentesting'), MSSP Alert, ITBrief, BusinessWire/Morningstar (Dec 2025 'Exploitability Validation Capabilities for Web Applications'). Architecture: Ambient agents handle autonomous execution; Copilot agents engage human experts for approved, controlled exploitation at high-risk decision points. This is the clearest 'intervene vs autonomous' control model in the set \u2014 directly relevant to Burp DAST trust/control design.",
+      "sources": [
+        "https://www.terra.security/terra-platform"
+      ]
+    },
+    {
+      "claim": "Terra offers 'Terra Portal', a first-of-its-kind collaboration product for offensive-security researchers to work alongside AI agents within the Terra Platform; access is sales-led via a demo booking with no self-serve signup and no published pricing.",
+      "confidence": "high",
+      "vote": "3-0 (claim 15)",
+      "evidence": "terra.security/terra-platform: 'Terra Portal\u2122\u2014The first-of-its-kind software built for Offensive Security researchers to collaborate with AI agents in Terra Platform\u2122.' Only CTA is 'Book a demo'; no self-serve signup, no published pricing. Corroborated by BusinessWire (2026-03-10 'Terra Security Redefines Penetration Testing for the AI Era with Terra Portal'), MSSP Alert, Help Net Security \u2014 describing it as an agentic execution layer where pentesters direct AI agents under HITL. Product launched March 2026. UX takeaway: a dedicated researcher-facing surface for human+agent collaboration.",
+      "sources": [
+        "https://www.terra.security/terra-platform"
+      ]
+    },
+    {
+      "claim": "Ethiack positions itself as autonomous (agentic) ethical hacking via an AI hacking agent branded 'Hackian', built on a multi-agent architecture (LLM brain + tools + prompt engineering) with three layers of safety guardrails; Hackian can plan, execute tasks, actively probe systems, adapt strategies based on results, and operate with autonomy, with every finding including proof-of-exploitation and prioritized mitigation guidance \u2014 distinguishing it from noisy traditional DAST.",
+      "confidence": "high",
+      "vote": "3-0 (merged from claims 0 and 11)",
+      "evidence": "ethiack.com/news/product/introducing-hackian states verbatim 'plan, execute tasks, actively probe systems, adapt strategies based on results, and operate with autonomy' and describes 'agentic AI: connecting LLMs with tools', a multi-agent architecture (Brain/LLM, Structure, Prompt Engineering, Tools), and three guardrail layers. Capability corroborated by documented results: full system compromise under 4h at a DEFCON CTF, and one-click account-takeover-to-RCE on OpenClaw in ~1h40m. Ethiack copy: 'Every finding includes proof-of-exploitation and prioritized mitigation guidance.' Minor nuance: brand is singular 'Hackian'. Note: a competing claim framing Ethiack as on-demand HUMAN hacking events was refuted (0-3); and Ethiack's own 2026 blog qualifies 'autonomy' as incremental/non-binary with real limits (cost, hallucination).",
+      "sources": [
+        "https://ethiack.com/news/product/introducing-hackian",
+        "https://ethiack.com/news/blog/one-click-rce-openclaw",
+        "https://ethiack.com/news/blog/ai-hacking-2026"
+      ]
+    },
+    {
+      "claim": "Ethiack has a genuinely self-serve, trial-led onboarding model: a 30-day free trial via open self-serve registration at portal.ethiack.com/signup (work email, organization name, password, or Microsoft SSO), with no waitlist, no setup, no commitment, and no automatic subscription.",
+      "confidence": "high",
+      "vote": "3-0 (merged from claims 1 and 10)",
+      "evidence": "ethiack.com/news/product/introducing-hackian states '30-day free trial. No setup. No commitment.' with a CTA to portal.ethiack.com/signup. The live signup portal is a genuine open registration form (work email, org name, password + Microsoft SSO) stating 'Try our platform free for 30 days. No strings attached. No automatic subscription. No hidden fees.' \u2014 no invite/approval gate. Ethiack's Terms define a 'Trial' as a free POC subscription. Caveat: the ethiack.com/pricing URL now 404s (URL rot), and a third-party aggregator lists enterprise pricing as custom/contact-vendor \u2014 but that is paid-tier pricing, not the trial entry point. The refuted sales-gated-pricing claim failed 0-3.",
+      "sources": [
+        "https://ethiack.com/pricing",
+        "https://portal.ethiack.com/signup",
+        "https://support.ethiack.com/knowledge/sso"
+      ]
+    },
+    {
+      "claim": "ZeroPath is an 'AI-washing' contrast case: it is positioned as an AI-native CODE security platform (SAST/SCA/secrets/IaC, with one-click AI patches and PR reviews) rather than an autonomous black-box web-application pentest agent, even though it lists DAST as one secondary feature within its unified platform.",
+      "confidence": "high",
+      "vote": "3-0 (claim 9)",
+      "evidence": "zeropath.com self-describes as 'AI-Native SAST & AppSec Platform' / 'AI-native code security tool for engineering teams', listing 'AI-native SAST with business logic & broken auth detection ... SCA with reachability analysis ... Secrets detection & IaC scanning', plus one-click AI-generated patches/PRs and CI/CD integration. Its homepage frames it as replacing SAST/SCA/secrets/IaC/DAST in one platform \u2014 code-first, operating on source and pull requests, not a black-box attacker agent like XBOW/Sybil. Nuance: it DOES list DAST ('Dynamic testing with exploit proof and fix verification') as one feature, so it is not purely static, but DAST is secondary to its code-security positioning. The refuted claim that ZeroPath has zero self-serve / no free trial split 1-2 (not confirmed).",
+      "sources": [
+        "https://zeropath.com/pricing"
+      ]
+    }
+  ],
+  "caveats": "Most evidence is vendor self-description (marketing pages, funding announcements, image captions/alt-text) for products in a fast-moving, recently-funded space \u2014 none of the agentic capabilities, false-positive rates, or exploit-validity claims were independently benchmark-tested. The UX details for RunSybil in particular derive from marketing screenshot captions rather than a hands-on demo, so exact button labels and live in-run behaviour are inferred, not confirmed. Time-sensitivity is high: XBOW Lightspeed launched Nov 2025, RunSybil's $40M raise and Terra Portal both landed March 2026, and Ethiack's pricing page already 404'd between research passes \u2014 pricing, tiers, and access models may shift quickly. The XBOW per-test pricing has a minor unresolved discrepancy (a marketplace snippet said 'starts at $6,000' vs the $4,000/$8,000 on the pricing page). The research did not deeply cover the broader 'AI-washed traditional DAST' tail named in the brief (Aikido, Akto, Mindgard, Pentera, Horizon3.ai/NodeZero, Aardvark/OpenAI, Plerion, Vanta, Bright Security, Escape, StackHawk) \u2014 only ZeroPath was verified as a contrast case, so the WHO landscape is confirmed for the top tier but thin on the second tier. Two refuted claims are worth flagging downstream: XBOW does NOT use independent validators to eliminate hallucination false-positives (0-3), and Sybil's specific 'low-sev-chained-to-full-account-access' exploit anecdote was refuted (0-3) despite the general chaining capability being confirmed.",
+  "openQuestions": [
+    "What does the actual onboarding, target-scoping, and authentication-setup flow look like for XBOW, RunSybil and Terra (not just findings presentation)? The verified evidence is rich on findings/reasoning UX but thin on signup-to-first-scan and auth configuration, which is the part Burp DAST most needs to design.",
+    "For the autonomous players (XBOW, RunSybil), is there ANY in-run user intervention/steer mechanism, or is control purely after-the-fact via the reviewable log? Only Terra's HITL intervention model was confirmed; the intervene-vs-autonomous axis for the others is unresolved.",
+    "How do the second-tier and 'AI-washed' vendors named in the brief (Pentera, Horizon3.ai/NodeZero, Aikido, Akto, Mindgard, Bright Security, Escape, StackHawk, Aardvark/OpenAI) actually compare on genuine agency vs marketing \u2014 none were verified in this pass.",
+    "What do the proof-of-exploit and remediation/ticketing handoff integrations concretely support (which trackers \u2014 Jira/GitHub \u2014 and is re-test verification automatic or manual) beyond the high-level 'open ticket' / 'instant re-test' labels?"
+  ]
+}
